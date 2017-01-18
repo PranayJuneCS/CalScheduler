@@ -1,0 +1,14 @@
+body {
+  background-color: #e0f2f1;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background-color: #009688; 
+}
+
+.content {
+  text-align: center;
+}
