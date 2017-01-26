@@ -12,3 +12,7 @@ nav {
 .content {
   text-align: center;
 }
+
+.send-button {
+  margin-top: 10px;
+}
