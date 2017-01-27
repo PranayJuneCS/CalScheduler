@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
+  	<meta charset="utf-8" />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
     <title>Scheduler</title>
     <%= csrf_meta_tags %>
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <noscript>
+      <style>
+          .nojs { display: none; }
+      </style>
+    </noscript>
   </head>
 
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo center">Cal Scheduler</a>
+    </div>
+  </nav>
   <body>
     <%= yield %>
   </body>
