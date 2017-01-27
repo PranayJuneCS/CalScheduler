@@ -3,7 +3,7 @@ class Home extends React.Component {
     return (
       <div className="container">
         <div className="content">
-          <h1>Import Your Class Schedule To Your Google Calendar.</h1>
+          <h4>Import Your Class Schedule To Your Google Calendar.</h4>
         </div>
         <div className="container">
           <div className="row">
