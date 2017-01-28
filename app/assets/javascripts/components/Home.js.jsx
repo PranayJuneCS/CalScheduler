@@ -1,11 +1,10 @@
 class Home extends React.Component {
-  render() {
-    return (
-      <div className="container">
-        <div className="content">
-          <h4>Import Your Class Schedule To Your Google Calendar.</h4>
-        </div>
-        <div className="container">
+  
+  loggedIn() {
+    if (this.props.current_user) {
+      return (
+        <div className="content container">
+          <h4>Signed in as {this.props.current_user.name}.</h4>
           <div className="row">
             <div className="col s10">
               <div className="row">
@@ -19,7 +18,23 @@ class Home extends React.Component {
               <a className="send-button btn-floating waves-effect waves-light"><i className="material-icons">send</i></a>
             </div>
           </div>
+          <a href="/signout" className="waves-effect waves-light btn">
+            <i className="fa fa-sign-out left"></i>
+            Sign Out
+          </a>
         </div>
+      );
+    } else {
+      return (
+        <Login />
+      );
+    }
+  }
+
+  render() {
+    return (
+      <div className="container">
+        {this.loggedIn()}
       </div>
     );
   }
