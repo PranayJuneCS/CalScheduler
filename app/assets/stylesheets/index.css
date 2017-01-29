@@ -16,3 +16,17 @@ nav {
 .send-button {
   margin-top: 10px;
 }
+
+.course-title {
+  float: left;
+  font-weight: bold;
+}
+
+.course-time {
+  float: right;
+}
+
+.collapsible-header div {
+  width: 50%;
+  margin: 0 auto;
+}
