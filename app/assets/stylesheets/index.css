@@ -27,6 +27,61 @@ nav {
 }
 
 .collapsible-header div {
-  width: 50%;
+  width: 65%;
   margin: 0 auto;
+}
+
+#add-class-button {
+  right: 4%;
+  transform: translateY(-125%);
+}
+
+.info-button {
+  height: 100% !important;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.info-button:hover {
+  height: 100% !important;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.padding-top-15 {
+  padding-top: 15px;
+}
+
+#dropdown1 {
+  width: 250px !important;
+}
+
+.signout-link {
+  color: white !important;
+  height: 36px;
+  padding: 10px 20px;
+  background-color: #009688;
+  border-radius: 2px;
+  margin-right: 0px !important;
+}
+
+.signout-link i {
+  padding-right: 10px;
+}
+
+.signout-link:hover {
+  box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.3) !important;
+}
+
+#class-search {
+  background-color: #00796b !important;
+}
+
+.add-specific-class {
+  color: black;
+  cursor: pointer;
+}
+
+.add-specific-class:hover {
+  color: #009688;
 }

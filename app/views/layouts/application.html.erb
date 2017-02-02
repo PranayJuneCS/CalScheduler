@@ -18,7 +18,31 @@
 
   <nav>
     <div class="nav-wrapper">
-      <a href="#!" class="brand-logo center">Cal Scheduler</a>
+      <a href="/" class="brand-logo center">Cal Scheduler</a>
+      <% unless @current_user.nil? %>
+       <!--  <div id="dropdown1" class="dropdown-content">
+          <h1 style="color: black;">YO</h1>
+          <li><a href="/signout">Sign Out</a></li>
+        </div> -->
+        <div id="dropdown1" class="card container dropdown-content">
+          <div class="card-content">
+            <!-- <div class="row">
+            </div> -->
+          </div>
+          <div class="card-action content">
+            <a href="/signout" class="signout-link z-depth-2">
+              <i class="fa fa-sign-out"></i>
+              Sign Out
+            </a>
+          </div>
+        </div>
+        <a class="dropdown-button info-button right hide-on-small-only" data-activates="dropdown1">
+          <i class="fa fa-info-circle fa-3x"></i>
+        </a>
+        <div class="dropdown-button info-button right hide-on-med-and-up" data-activates="dropdown1">
+          <a href="#"><i class="fa fa-info-circle fa-2x padding-top-15"></i></a>
+        </div>
+      <% end %>
     </div>
   </nav>
   <body>
