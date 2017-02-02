@@ -7,9 +7,10 @@ class Select extends React.Component {
     };
 
     this.codes = [];
-    console.log(this.props);
-    for (var entry of this.props.courses) {
-      this.codes.push(entry.code);
+    var i;
+    var coursesLength = this.props.courses.length;
+    for (i = 0; i < coursesLength; i++) {
+      this.codes.push(this.props.courses[i].code);
     }
     this.inCodeArray = this.inCodeArray.bind(this);
   }

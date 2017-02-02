@@ -5,8 +5,8 @@ class HomeController < ApplicationController
   end
 
   def add
-    render component: 'Select', props: { current_user: @current_user,
-                                         courses: @current_courses }
+    puts @current_courses.inspect
+    render component: 'Select', props: { courses: @current_courses }
   end
 
   def add_class
