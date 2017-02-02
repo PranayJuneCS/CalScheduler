@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'signout', to: 'sessions#destroy', as: 'signout'
   get 'add', to: "home#add"
+  post 'add_class', to: "home#add_class"
 
   resources :sessions, only: [:create, :destroy]
   resource :home, only: [:show]
