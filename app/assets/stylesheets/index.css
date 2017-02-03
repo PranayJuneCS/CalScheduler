@@ -123,3 +123,12 @@ nav {
   padding: 0px !important;
   height: 65px !important;
 }
+
+@media screen and (max-width: 650px) {
+  .material-tooltip { display: none !important; }
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+}

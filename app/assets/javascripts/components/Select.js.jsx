@@ -21,6 +21,7 @@ class Select extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
+    $('.tooltipped').tooltip({delay: 1000});
     // $('input.autocomplete').autocomplete({
     //   data: {
     //     "CS61A": "https://www.python.org/static/opengraph-icon-200x200.png",
@@ -41,7 +42,12 @@ class Select extends React.Component {
   render() {
     return (
       <div className="content container">
-        <h4>Select Your Classes</h4>
+        <div className="header-container">
+          <h4 style={{flex: 1}}>Select Your Classes</h4>
+          <a href="/" data-position="left" data-delay="1000" data-tooltip="My Schedule" className="btn-floating btn waves-effect waves-light right tooltipped">
+            <i className="material-icons">home</i>
+          </a>
+        </div>
         <nav id="class-search">
           <div className="nav-wrapper">
             <form>

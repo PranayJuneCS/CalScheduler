@@ -9,6 +9,7 @@ class ClassOverview extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
+    $('.tooltipped').tooltip({delay: 1000});
   }
 
   createClassInfo(course, i) {
@@ -23,9 +24,9 @@ class ClassOverview extends React.Component {
   render() {
     return (
       <div className="content container">
-        <div className="">
-          <h4>My Current Schedule</h4>
-          <a href="/add" id="add-class-button" className="btn-floating btn waves-effect waves-light right">
+        <div className="header-container">
+          <h4 style={{flex: 1}}>My Schedule</h4>
+          <a href="/add" data-position="left" data-delay="1000" data-tooltip="Add Classes" className="btn-floating btn waves-effect waves-light right tooltipped">
             <i className="material-icons">add</i>
           </a>
         </div>
