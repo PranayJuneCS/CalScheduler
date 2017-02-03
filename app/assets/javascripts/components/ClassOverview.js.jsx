@@ -21,6 +21,12 @@ class ClassOverview extends React.Component {
     );
   }
 
+  showCalendar() {
+    return {
+      __html: '<iframe src="https://calendar.google.com/calendar/embed?title=Your%20Calendar&amp;showTitle=0&amp;showPrint=0&amp;showCalendars=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23336666&amp;src=' + encodeURIComponent(this.props.user.email) + '&amp;color=%23691426&amp;ctz=America%2FLos_Angeles" style="border:solid 1px #777" height="600" frameborder="0" scrolling="yes"></iframe>'
+    }
+  }
+
   render() {
     return (
       <div className="content container">
@@ -33,6 +39,9 @@ class ClassOverview extends React.Component {
         <ul className="collapsible popout" data-collapsible="accordion">
           {this.props.courses.map(this.createClassInfo)}
         </ul>
+        <div>
+          <div dangerouslySetInnerHTML={this.showCalendar()} />
+        </div>
       </div>
     );
   }
