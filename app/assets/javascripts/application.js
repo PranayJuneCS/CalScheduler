@@ -17,4 +17,5 @@
 //= require react_ujs
 //= require components
 //= require materialize.min
+//= require fuse.min
 //= require_tree .

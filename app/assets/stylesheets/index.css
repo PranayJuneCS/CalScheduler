@@ -31,11 +31,6 @@ nav {
   margin: 0 auto;
 }
 
-#add-class-button {
-  right: 4%;
-  transform: translateY(-125%);
-}
-
 .info-button {
   height: 100% !important;
   cursor: pointer;
@@ -131,4 +126,9 @@ nav {
 .header-container {
   display: flex;
   align-items: center;
+}
+
+.show-my-classes {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
