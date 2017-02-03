@@ -121,6 +121,7 @@ nav {
 
 @media screen and (max-width: 650px) {
   .material-tooltip { display: none !important; }
+  .collapsible-header div { width: 80% !important; }
 }
 
 .header-container {

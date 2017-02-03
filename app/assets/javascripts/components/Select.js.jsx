@@ -131,7 +131,7 @@ class Select extends React.Component {
   showClasses() {
     if (this.state.activeClasses.length == 0) {
       return (
-        <h3>No Results!</h3>
+        <tr><td><h3>No Results!</h3></td></tr>
       );
     }
     return this.state.activeClasses.map(this.createTableEntry);
