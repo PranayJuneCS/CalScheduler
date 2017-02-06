@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get 'add', to: "home#add"
   post 'add_class', to: "home#add_class"
 
+  post 'sync_class', to: "home#sync_class"
+
   resources :sessions, only: [:create, :destroy]
   resource :home, only: [:show]
 

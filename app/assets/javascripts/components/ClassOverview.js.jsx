@@ -1,5 +1,15 @@
 class ClassOverview extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      courses: this.props.courses
+    };
+    
+    this.refreshStatus = this.refreshStatus.bind(this);
+    this.createClassInfo = this.createClassInfo.bind(this);
+  }
+
   componentDidMount() {
     $('.collapsible').collapsible({
       onOpen: function(el) {}
@@ -12,10 +22,15 @@ class ClassOverview extends React.Component {
     $('.tooltipped').tooltip({delay: 1000});
   }
 
+  refreshStatus(data) {
+    this.setState({ courses: data });
+  } 
+
   createClassInfo(course, i) {
     return (
       <ClassInfo
         key={i}
+        refreshStatus={this.refreshStatus}
         {...course}
       />
     );
@@ -37,7 +52,7 @@ class ClassOverview extends React.Component {
           </a>
         </div>
         <ul className="collapsible popout" data-collapsible="accordion">
-          {this.props.courses.map(this.createClassInfo)}
+          {this.state.courses.map(this.createClassInfo)}
         </ul>
         <div>
           <div dangerouslySetInnerHTML={this.showCalendar()} />

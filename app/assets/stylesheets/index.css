@@ -121,7 +121,7 @@ nav {
 
 @media screen and (max-width: 650px) {
   .material-tooltip { display: none !important; }
-  .collapsible-header div { width: 80% !important; }
+  .collapsible-header div { width: 95% !important; }
 }
 
 .header-container {
@@ -155,4 +155,18 @@ h6 {
 .sync-button {
   padding: 0 1rem !important;
   margin-top: 15px !important;
+}
+
+.blue-bar {
+  background-color: #2196F3;
+  width: 10px;
+  height: 42px;
+  position: absolute;
+}
+
+.red-bar {
+  background-color: #F44336;
+  width: 10px;
+  height: 42px;
+  position: absolute;
 }

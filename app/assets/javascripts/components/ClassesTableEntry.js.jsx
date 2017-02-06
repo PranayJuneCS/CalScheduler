@@ -7,6 +7,15 @@ class ClassesTableEntry extends React.Component {
     }
     this.addClass = this.addClass.bind(this);
     this.renderStatus = this.renderStatus.bind(this);
+    this.formatDayTime = this.formatDayTime.bind(this);
+
+    this.dayDict = {
+      mo: 'M',
+      tu: 'Tu',
+      we: 'W',
+      th: 'Th',
+      fr: 'F'
+    };
   }
 
   addClass(e) {
@@ -55,12 +64,45 @@ class ClassesTableEntry extends React.Component {
     }
   }
 
+  formatDayTime() {
+    var dayString = "";
+    var i;
+    var dayArray = this.props.day.split(',');
+    for (i = 0; i < dayArray.length; i++) {
+      dayString += this.dayDict[dayArray[i]];
+    }
+
+    var timeString = "";
+    var timeArray = this.props.time.split('-');
+    for (i = 0; i < timeArray.length; i++) {
+      var elem = timeArray[i];
+      var hour = parseInt(elem.split(':')[0]);
+      if (hour < 12) {
+        if (hour < 10) {
+          timeString += (elem.substr(1) + " AM");
+        } else {
+          timeString += (elem + " AM");
+        }
+      } else if (hour == 12) {
+        timeString += (elem + " PM");
+      } else {
+        var minute = elem.split(':')[1];
+        timeString += ((hour - 12) + ":" + minute + " PM")
+      }
+      if (i == 0) {
+        timeString += " - " 
+      }
+    }
+
+    return dayString + " " + timeString;
+  }
+
   render() {
     return (
       <tr>
         <td>{this.props.code}</td>
         <td className="hide">{this.props.title}</td>
-        <td>{this.props.day} {this.props.time}</td>
+        <td>{this.formatDayTime()}</td>
         {this.renderStatus()}
       </tr>
     );

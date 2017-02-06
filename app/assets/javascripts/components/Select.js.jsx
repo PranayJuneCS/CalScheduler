@@ -8,43 +8,43 @@ class Select extends React.Component {
         code: "CS61A",
         dept: "COMPSCI",
         title: "Structure and Interpretation of Computer Programs",
-        day: "MWF",
-        time: "2-3"
+        day: "mo,we,fr",
+        time: "14:00-15:00"
      },
      {
         code: "CS61B",
         dept: "COMPSCI",
         title: "Data Structures",
-        day: "TuTh",
-        time: "8-9"
+        day: "tu,th",
+        time: "08:00-09:00"
      },
      {
         code: "CS61C",
         dept: "COMPSCI",
         title: "Great Ideas in Computer Architecture",
-        day: "MW",
-        time: "5-6:30"
+        day: "mo,we",
+        time: "17:00-18:30"
      },
      {
         code: "PSYCH160",
         dept: "PSYCHOLOGY",
         title: "Social Psychology",
-        day: "TuTh",
-        time: "2-3:30"
+        day: "tu,th",
+        time: "14:00-15:30"
      },
      {
         code: "BIOE100",
         dept: "BIOE",
         title: "Ethics and Science in Engineering",
-        day: "MWF",
-        time: "9-10"
+        day: "mo,we,fr",
+        time: "09:00-10:00"
      },
      {
         code: "EE16B",
         dept: "ELENG",
         title: "Designing Information Devices and Systems II",
-        day: "TuTh",
-        time: "6:30-8"
+        day: "tu,th",
+        time: "18:30-20:00"
      }
     ];
 
