@@ -3,7 +3,7 @@ class ClassInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      syncingClass: false
+      removingClass: false
     }
 
     this.dayDict = {
@@ -14,40 +14,24 @@ class ClassInfo extends React.Component {
       fr: 'F'
     };
 
-    this.syncClass = this.syncClass.bind(this);
     this.unsyncClass = this.unsyncClass.bind(this);
     this.formatDayTime = this.formatDayTime.bind(this);
     this.loadingSync = this.loadingSync.bind(this);
   }
 
-  syncClass(e) {
-    this.setState({ syncingClass: true });
-    var classDict = {
-      code: this.props.code,
-      title: this.props.title,
-      day: this.props.day,
-      time: this.props.time
-    };
-    $.post("/sync_class", classDict)
-      .done( (data) => {
-        Materialize.toast(classDict.code + ' has been synced with your Google Calendar!', 2000, '', () => {
-          this.setState({ syncingClass: false });
-          this.props.refreshStatus(data);
-        });
-      }).fail( function(e) {
-        console.log("Failed syncing with Google Calendar.");
-      });
+  componentDidMount() {
+    $('.modal').modal();
   }
 
   unsyncClass(e) {
-    this.setState({ syncingClass: true });
+    this.setState({ removingClass: true });
     var classDict = {
       code: this.props.code
     };
-    $.post("/unsync_class", classDict)
+    $.post("/delete_class", classDict)
       .done( (data) => {
-        Materialize.toast(classDict.code + ' has been unsynced with and removed from your Google Calendar!', 2000, '', () => {
-          this.setState({ syncingClass: false });
+        Materialize.toast(classDict.code + ' has been removed from Google Calendar and your schedule.', 2000, '', () => {
+          this.setState({ removingClass: false });
           this.props.refreshStatus(data);
         });
       }).fail( function(e) {
@@ -73,27 +57,9 @@ class ClassInfo extends React.Component {
     }
   }
 
-  syncButton() {
-    if (!this.props.synced) {
-      return (
-        <a className="sync-button waves-effect waves-light btn" onClick={this.syncClass}>
-          <i className={this.loadingSync("fa-refresh")}></i>
-          Sync
-        </a>
-      );
-    } else {
-      return (
-        <a className="sync-button waves-effect waves-light btn" onClick={this.unsyncClass}>
-          <i className={this.loadingSync("fa-times")}></i>
-          Unsync
-        </a>
-      );
-    }
-  }
-
   loadingSync(icon) {
     var refreshClasses = "fa left " + icon;
-    if (this.state.syncingClass) {
+    if (this.state.removingClass) {
       refreshClasses += " fa-spin";
     }
     return refreshClasses;
@@ -135,6 +101,17 @@ class ClassInfo extends React.Component {
   render() {
     return (
       <li>
+        <div id="removeModal" className="modal">
+          <div className="modal-content">
+            <h4>Delete {this.props.code}?</h4>
+            <p>Once you delete {this.props.code}, it will no longer be present in your schedule or in Google Calendar.</p>
+          </div>
+          <div className="divider"></div>
+          <div className="modal-footer">
+            <a className="modal-action modal-close waves-effect waves-red btn-flat">Cancel</a>
+            <a onClick={this.unsyncClass} className="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+          </div>
+        </div>
         {this.syncedBadge()}
         <div className="collapsible-header">
           <div>
@@ -152,7 +129,10 @@ class ClassInfo extends React.Component {
                 <span>Th 3-4</span>
               </div>
               <div className="col s6">
-                {this.syncButton()}
+                <a href="#removeModal" className="sync-button waves-effect waves-light btn">
+                  <i className={this.loadingSync("fa-times")}></i>
+                  Remove
+                </a>
               </div>
             </div>
           </div>
