@@ -51,4 +51,25 @@ class HomeController < ApplicationController
 
     render json: @current_courses
   end
+
+  def unsync_class
+    cal = Google::Calendar.new(:client_id => ENV["google_app_id"],
+                         :client_secret => ENV["google_app_secret"],
+                         :calendar      => @current_user.email,
+                         :redirect_url  => request.url + "auth/google_oauth2/callback",
+                         :refresh_token => @current_user.oauth_token
+                         )
+
+    course = Course.find_by_code(params[:code])
+    event_arr = cal.find_event_by_id(course.event_id)
+    if event_arr.size == 1
+      event = event_arr[0]
+      cal.delete_event(event)
+    end
+    course.synced = false
+    course.event_id = nil
+    course.save!
+
+    render json: @current_courses
+  end
 end
