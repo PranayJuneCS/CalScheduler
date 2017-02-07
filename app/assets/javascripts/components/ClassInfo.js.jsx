@@ -3,7 +3,8 @@ class ClassInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      removingClass: false
+      removingClass: false,
+      ...this.props
     }
 
     this.dayDict = {
@@ -20,19 +21,29 @@ class ClassInfo extends React.Component {
   }
 
   componentDidMount() {
-    $('.modal').modal();
+    $("." + this.state.code + "-modal").modal();
+  }
+
+  componentDidUpdate() {
+    $("." + this.state.code + "-modal").modal();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps) {
+      this.setState(nextProps);
+    }
   }
 
   unsyncClass(e) {
     this.setState({ removingClass: true });
     var classDict = {
-      code: this.props.code
+      code: this.state.code
     };
     $.post("/delete_class", classDict)
       .done( (data) => {
         Materialize.toast(classDict.code + ' has been removed from Google Calendar and your schedule.', 2000, '', () => {
           this.setState({ removingClass: false });
-          this.props.refreshStatus(data);
+          this.state.refreshStatus(data);
         });
       }).fail( function(e) {
         console.log("Failed unsyncing with Google Calendar.");
@@ -40,7 +51,7 @@ class ClassInfo extends React.Component {
   }
 
   syncedBadge() {
-    if (this.props.synced) {
+    if (this.state.synced) {
       return (
         <div>
           <span className="hide-on-small-only sync-badge new badge blue" data-badge-caption="Synced!"></span>
@@ -68,13 +79,13 @@ class ClassInfo extends React.Component {
   formatDayTime() {
     var dayString = "";
     var i;
-    var dayArray = this.props.day.split(',');
+    var dayArray = this.state.day.split(',');
     for (i = 0; i < dayArray.length; i++) {
       dayString += this.dayDict[dayArray[i]];
     }
 
     var timeString = "";
-    var timeArray = this.props.time.split('-');
+    var timeArray = this.state.time.split('-');
     for (i = 0; i < timeArray.length; i++) {
       var elem = timeArray[i];
       var hour = parseInt(elem.split(':')[0]);
@@ -101,10 +112,10 @@ class ClassInfo extends React.Component {
   render() {
     return (
       <li>
-        <div id="removeModal" className="modal">
+        <div id={this.state.code + "-removeModal"} className={"modal " + this.state.code + "-modal"}>
           <div className="modal-content">
-            <h4>Delete {this.props.code}?</h4>
-            <p>Once you delete {this.props.code}, it will no longer be present in your schedule or in Google Calendar.</p>
+            <h4>Delete {this.state.code}?</h4>
+            <p>Once you delete {this.state.code}, it will no longer be present in your schedule or in Google Calendar.</p>
           </div>
           <div className="divider"></div>
           <div className="modal-footer">
@@ -115,13 +126,13 @@ class ClassInfo extends React.Component {
         {this.syncedBadge()}
         <div className="collapsible-header">
           <div>
-            <span className="course-title">{this.props.code}</span>
+            <span className="course-title">{this.state.code}</span>
             <span className="course-time">{this.formatDayTime()}</span>
           </div>
         </div>
         <div className="collapsible-body">
           <div className="container class-container">
-            <h5>{this.props.title}</h5>
+            <h5>{this.state.title}</h5>
             <div className="divider"></div>
             <div className="row">
               <div className="col s6">
@@ -129,7 +140,7 @@ class ClassInfo extends React.Component {
                 <span>Th 3-4</span>
               </div>
               <div className="col s6">
-                <a href="#removeModal" className="sync-button waves-effect waves-light btn">
+                <a href={"#" + this.state.code + "-removeModal"} className="sync-button waves-effect waves-light btn">
                   <i className={this.loadingSync("fa-times")}></i>
                   Remove
                 </a>
