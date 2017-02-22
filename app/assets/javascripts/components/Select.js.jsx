@@ -78,6 +78,8 @@ class Select extends React.Component {
     this.createTableEntry = this.createTableEntry.bind(this);
     this.refreshCodes = this.refreshCodes.bind(this);
     this.showClasses = this.showClasses.bind(this);
+    this.searchClick = this.searchClick.bind(this);
+    this.clearField = this.clearField.bind(this);
   }
 
   componentDidMount() {
@@ -96,10 +98,11 @@ class Select extends React.Component {
   }
 
   handleSearch(e) {
-    if (e.target.value.length == 0) {
+    var searchVal = $("#search").val().trim();
+    if (searchVal.length == 0) {
       this.setState({ activeClasses: this.allClasses });
     } else {
-      var result = this.fuse.search(e.target.value.trim());
+      var result = this.fuse.search(searchVal);
       this.setState({ activeClasses: result });
     }
   }
@@ -137,13 +140,25 @@ class Select extends React.Component {
     return this.state.activeClasses.map(this.createTableEntry);
   }
 
+  searchClick() {
+    $('#search').focus();
+  }
+
+  clearField() {
+    $('#search').val('');
+    this.handleSearch();
+  }
+
   render() {
     return (
       <div className="content container">
         <div className="header-container">
+          <a href="/" data-position="right" data-delay="1000" data-tooltip="My Schedule" className="btn-floating btn waves-effect waves-light right tooltipped">
+            <i className="material-icons">arrow_back</i>
+          </a>
           <h4 style={{flex: 1}}>Select Your Classes</h4>
-          <a href="/" data-position="left" data-delay="1000" data-tooltip="My Schedule" className="btn-floating btn waves-effect waves-light right tooltipped">
-            <i className="material-icons">home</i>
+          <a onClick={this.searchClick} className="btn-floating btn waves-effect waves-light right">
+            <i className="material-icons">search</i>
           </a>
         </div>
         <nav id="class-search">
@@ -152,7 +167,7 @@ class Select extends React.Component {
               <div className="input-field">
                 <input placeholder="Search..." id="search" type="search" onChange={this.handleSearch} autoComplete="off" required />
                 <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
-                <i className="material-icons">close</i>
+                <i onClick={this.clearField} className="material-icons">close</i>
               </div>
             </form>
           </div>
