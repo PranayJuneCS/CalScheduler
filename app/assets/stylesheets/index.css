@@ -122,6 +122,8 @@ nav {
 @media screen and (max-width: 650px) {
   .material-tooltip { display: none !important; }
   .collapsible-header div { width: 95% !important; }
+  .collapsible.popout > li { margin: 0 !important; }
+  .collapsible.popout > li.active { margin: 16px 0 !important; }
 }
 
 .header-container {
