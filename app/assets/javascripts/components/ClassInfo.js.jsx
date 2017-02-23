@@ -142,7 +142,7 @@ class ClassInfo extends React.Component {
               <div className="col s6">
                 <a href={"#" + this.state.code + "-removeModal"} className="sync-button waves-effect waves-light btn">
                   <i className={this.loadingSync("fa-times")}></i>
-                  Remove
+                  Delete
                 </a>
               </div>
             </div>
