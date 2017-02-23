@@ -80,6 +80,7 @@ class Select extends React.Component {
     this.showClasses = this.showClasses.bind(this);
     this.searchClick = this.searchClick.bind(this);
     this.clearField = this.clearField.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   componentDidMount() {
@@ -149,6 +150,11 @@ class Select extends React.Component {
     this.handleSearch();
   }
 
+  submitForm(e) {
+    e.preventDefault();
+    $('#search').blur();
+  }
+
   render() {
     return (
       <div className="content container">
@@ -163,7 +169,7 @@ class Select extends React.Component {
         </div>
         <nav id="class-search">
           <div className="nav-wrapper">
-            <form>
+            <form onSubmit={this.submitForm}>
               <div className="input-field">
                 <input placeholder="Search..." id="search" type="search" onChange={this.handleSearch} autoComplete="off" required />
                 <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
