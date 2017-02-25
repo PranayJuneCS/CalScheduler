@@ -80,9 +80,62 @@ class Search extends React.Component {
 
   createClassEntry(course, i) {
     var courseName = course.class.displayName.substring(12);
+    var meeting = course.meetings;
+    var instructor;
+    if (!meeting) {
+      meeting = {
+        meetsDays: "- TBD -",
+        location: {
+          description: "- TBD -"
+        }
+      };
+      instructor = "TBD";
+    } else {
+      meeting = meeting[0];
+      meeting.startTime = meeting.startTime.split(":").slice(0, 2).join(":");
+      meeting.endTime = meeting.endTime.split(":").slice(0, 2).join(":");
+      var time = meeting.startTime + "-" + meeting.endTime;
+      var timeString = "";
+      var timeArray = time.split('-');
+      for (j = 0; j < timeArray.length; j++) {
+        var elem = timeArray[j];
+        var hour = parseInt(elem.split(':')[0]);
+        if (hour < 12) {
+          if (hour < 10) {
+            timeString += (elem.substr(1) + " AM");
+          } else {
+            timeString += (elem + " AM");
+          }
+        } else if (hour == 12) {
+          timeString += (elem + " PM");
+        } else {
+          var minute = elem.split(':')[1];
+          timeString += ((hour - 12) + ":" + minute + " PM")
+        }
+        if (j == 0) {
+          timeString += "-" 
+        }
+      }
+      if (!meeting.location.description) {
+        meeting.location.description = "- TBD -";
+      }
+      if (!meeting.meetsDays) {
+        meeting.meetsDays = "- TBD -";
+        timeString = "";
+      }
+      instructor = meeting.assignedInstructors;
+      if (!instructor) {
+        instructor = "TBD";
+      } else {
+        instructor = instructor[0].instructor.names[0].formattedName;
+      }
+    }
     return (
       <tr key={i}>
         <td>{courseName}</td>
+        <td>{meeting.meetsDays} {timeString}</td>
+        <td>{meeting.location.description}</td>
+        <td>{instructor}</td>
       </tr>
     );
   }
@@ -215,7 +268,7 @@ class Search extends React.Component {
             <div className="nav-wrapper">
               <form onSubmit={this.submitForm}>
                 <div className="input-field">
-                  <input placeholder={"Search for a Class in " + this.state.activeDept.short} id="search" type="search" onChange={this.handleClassSearch} autoComplete="off" required />
+                  <input placeholder={"Search in " + this.state.activeDept.short} id="search" type="search" onChange={this.handleClassSearch} autoComplete="off" required />
                   <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
                   <i onClick={this.clearField} className="material-icons">close</i>
                 </div>
