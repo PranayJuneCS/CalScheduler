@@ -15,7 +15,7 @@ class HomeController < ApplicationController
   end
 
   def classes_from_dept
-    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{params[:short]}&component-code=LEC")
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{params[:short]}&include-secondary=false&status-code=A&page-number=1&page-size=200&component-code=LEC")
     req = Net::HTTP::Get.new(uri)
 
     req["Accept"] = 'application/json'
@@ -25,7 +25,21 @@ class HomeController < ApplicationController
     response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') {|http|
       http.request(req)
     }
-    lectureSections = JSON.parse(response.body)["apiResponse"]["response"]["classSections"]
+    resp_body = JSON.parse(response.body)["apiResponse"]
+    if resp_body["httpStatus"]["code"] == "404"
+      uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{params[:short]}&include-secondary=false&status-code=A&page-number=1&page-size=200")
+      req = Net::HTTP::Get.new(uri)
+
+      req["Accept"] = 'application/json'
+      req["app_id"] = ENV['calnet_app_id']
+      req["app_key"] = ENV['calnet_app_secret']
+
+      response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') {|http|
+        http.request(req)
+      }
+      resp_body = JSON.parse(response.body)["apiResponse"]      
+    end
+    lectureSections = resp_body["response"]["classSections"]
     render json: {classes: lectureSections}
   end
 

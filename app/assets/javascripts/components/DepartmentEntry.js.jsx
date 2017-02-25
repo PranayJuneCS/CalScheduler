@@ -7,13 +7,7 @@ class DepartmentEntry extends React.Component {
   }
 
   onPress() {
-    console.log(this.props);
-    $.get("/classes_from_dept", {short: this.props.short, long: this.props.long})
-      .done( (data) => {
-        this.props.proceedToClasses(data);
-      }).fail( function(e) {
-        console.log("SHIZ");
-      });
+    this.props.selectDepartment({short: this.props.short, long: this.props.long});
   }
 
   render() {

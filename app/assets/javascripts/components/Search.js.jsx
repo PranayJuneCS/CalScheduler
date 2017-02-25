@@ -3,7 +3,7 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
 
-    this.searchOptions = {
+    this.deptSearchOptions = {
       shouldSort: true,
       threshold: 0.2,
       location: 0,
@@ -18,16 +18,24 @@ class Search extends React.Component {
 
     this.state = {
       searchFor: 'department',
-      activeDepartments: this.props.departments
+      activeDepartments: this.props.departments,
+      loading: false,
+      activeDept: null,
+      activeDeptClasses: null,
+      activeSearchClasses: null
     }
 
-    this.handleSearch = this.handleSearch.bind(this);
+    this.handleDeptSearch = this.handleDeptSearch.bind(this);
+    this.handleClassSearch = this.handleClassSearch.bind(this);
     this.showDepartments = this.showDepartments.bind(this);
-    this.createTableEntry = this.createTableEntry.bind(this);
+    this.createDeptEntry = this.createDeptEntry.bind(this);
+    this.createClassEntry = this.createClassEntry.bind(this);
     this.searchClick = this.searchClick.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.clearField = this.clearField.bind(this);
-    this.proceedToClasses = this.proceedToClasses.bind(this);
+    this.selectDepartment = this.selectDepartment.bind(this);
+    this.deptLoadingScreen = this.deptLoadingScreen.bind(this);
+    this.showClasses = this.showClasses.bind(this);
   }
 
   componentDidMount() {
@@ -37,31 +45,70 @@ class Search extends React.Component {
       gutter: 0
     });
 
-    this.fuse = new Fuse(this.props.departments, this.searchOptions);
+    this.deptFuse = new Fuse(this.props.departments, this.deptSearchOptions);
   }
 
-  handleSearch() {
+  handleDeptSearch() {
     var searchVal = $("#search").val().trim();
     if (searchVal.length == 0) {
       this.setState({ activeDepartments: this.props.departments });
     } else {
-      var result = this.fuse.search(searchVal);
+      var result = this.deptFuse.search(searchVal);
       this.setState({ activeDepartments: result });
     }
   }
 
-  createTableEntry(course, i) {
+  handleClassSearch() {
+    var searchVal = $("#search").val().trim();
+    if (searchVal.length == 0) {
+      this.setState({ activeSearchClasses: this.state.activeDeptClasses });
+    } else {
+      var result = this.classFuse.search(searchVal);
+      this.setState({ activeSearchClasses: result });
+    }
+  }
+
+  createDeptEntry(course, i) {
     return (
       <DepartmentEntry
         key={i}
         {...course}
-        proceedToClasses={this.proceedToClasses}
+        selectDepartment={this.selectDepartment}
       />
     );
   }
 
-  proceedToClasses(courses) {
-    console.log(courses);
+  createClassEntry(course, i) {
+    var courseName = course.class.displayName.substring(12);
+    return (
+      <tr key={i}>
+        <td>{courseName}</td>
+      </tr>
+    );
+  }
+
+  selectDepartment(dept) {
+    this.setState({ loading: true, activeDept: dept });
+    $.get("/classes_from_dept", {short: dept.short})
+      .done( (data) => {
+        console.log(data);
+        var classSearchOptions = {
+          shouldSort: true,
+          threshold: 0.2,
+          location: dept.short.length,
+          distance: 50,
+          maxPatternLength: 16,
+          minMatchCharLength: 1,
+          keys: [
+            "class.course.displayName",
+          ]
+        };
+        this.classFuse = new Fuse(data.classes, classSearchOptions);
+        this.setState({ loading: false, activeDeptClasses: data.classes, activeSearchClasses: data.classes });
+      }).fail( (e) => {
+        this.setState({ loading: false });
+        console.log("SHIZ");
+      });
   }
 
   showDepartments() {
@@ -70,7 +117,16 @@ class Search extends React.Component {
         <tr><td><h3>No Results!</h3></td></tr>
       );
     }
-    return this.state.activeDepartments.map(this.createTableEntry);
+    return this.state.activeDepartments.map(this.createDeptEntry);
+  }
+
+  showClasses() {
+    if (this.state.activeSearchClasses.length == 0) {
+      return (
+        <tr><td><h3>No Results!</h3></td></tr>
+      );
+    }
+    return this.state.activeSearchClasses.map(this.createClassEntry);
   }
 
   searchClick() {
@@ -87,35 +143,93 @@ class Search extends React.Component {
     $('#search').blur();
   }
 
-  render() {
-    return (
-      <div className="content container">
-        <div className="header-container">
-          <a data-position="right" data-delay="1000" data-tooltip="My Schedule" className="btn-floating btn waves-effect waves-light right tooltipped">
-            <i className="material-icons">arrow_back</i>
-          </a>
-          <h4 style={{flex: 1}}>Search For Classes</h4>
-          <a className="btn-floating btn waves-effect waves-light right">
-            <i className="material-icons">search</i>
-          </a>
-        </div>
-        <nav id="class-search">
-          <div className="nav-wrapper">
-            <form onSubmit={this.submitForm}>
-              <div className="input-field">
-                <input placeholder="Search for a Department" id="search" type="search" onChange={this.handleSearch} autoComplete="off" required />
-                <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
-                <i onClick={this.clearField} className="material-icons">close</i>
+  deptLoadingScreen() {
+    if (this.state.loading) {
+      return (
+        <div className="loading-screen">
+          <div className="loading-info">
+            <div className="content container">
+              <h5>Loading Class Data for:</h5>
+              <h4><b>{this.state.activeDept.short}</b> - {this.state.activeDept.long}</h4>
+              <div className="sk-folding-cube">
+                <div className="sk-cube1 sk-cube"></div>
+                <div className="sk-cube2 sk-cube"></div>
+                <div className="sk-cube4 sk-cube"></div>
+                <div className="sk-cube3 sk-cube"></div>
               </div>
-            </form>
+            </div>
           </div>
-        </nav>
-        <table className="highlight bordered centered">
-          <tbody>
-            {this.showDepartments()}
-          </tbody>
-        </table>
-      </div>
-    );
+        </div>
+      );
+    } else {
+      return null;
+    }
+    
+  }
+
+  render() {
+    if (!this.state.activeDeptClasses) {
+      return (
+        <div className="content container">
+          {this.deptLoadingScreen()}
+          <div className="header-container">
+            <a data-position="right" data-delay="1000" data-tooltip="My Schedule" className="btn-floating btn waves-effect waves-light right tooltipped">
+              <i className="material-icons">arrow_back</i>
+            </a>
+            <h4 style={{flex: 1}}>Search For Classes</h4>
+            <a className="btn-floating btn waves-effect waves-light right">
+              <i className="material-icons">search</i>
+            </a>
+          </div>
+          <nav id="class-search">
+            <div className="nav-wrapper">
+              <form onSubmit={this.submitForm}>
+                <div className="input-field">
+                  <input placeholder="Search for a Department" id="search" type="search" onChange={this.handleDeptSearch} autoComplete="off" required />
+                  <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
+                  <i onClick={this.clearField} className="material-icons">close</i>
+                </div>
+              </form>
+            </div>
+          </nav>
+          <table className="highlight bordered centered">
+            <tbody>
+              {this.showDepartments()}
+            </tbody>
+          </table>
+        </div>
+      );
+    } else {
+      return (
+        <div className="content container">
+          <div className="header-container">
+            <a data-position="right" data-delay="1000" data-tooltip="My Schedule" className="btn-floating btn waves-effect waves-light right tooltipped">
+              <i className="material-icons">arrow_back</i>
+            </a>
+            <h4 style={{flex: 1}}>Search For Classes</h4>
+            <a className="btn-floating btn waves-effect waves-light right">
+              <i className="material-icons">search</i>
+            </a>
+          </div>
+          <nav id="class-search">
+            <div className="nav-wrapper">
+              <form onSubmit={this.submitForm}>
+                <div className="input-field">
+                  <input placeholder={"Search for a Class in " + this.state.activeDept.short} id="search" type="search" onChange={this.handleClassSearch} autoComplete="off" required />
+                  <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
+                  <i onClick={this.clearField} className="material-icons">close</i>
+                </div>
+              </form>
+            </div>
+          </nav>
+          <table className="highlight bordered centered">
+            <tbody>
+              {this.showClasses()}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+    
   }
 }
