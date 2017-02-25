@@ -1,3 +1,5 @@
+require 'net/http'
+
 class HomeController < ApplicationController
   def show
     render component: 'Home', props: { current_user: @current_user,
@@ -6,6 +8,25 @@ class HomeController < ApplicationController
 
   def add
     render component: 'Select', props: { courses: @current_courses }
+  end
+
+  def search
+    render component: 'Search', props: { departments: @departments }
+  end
+
+  def classes_from_dept
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{params[:short]}&component-code=LEC")
+    req = Net::HTTP::Get.new(uri)
+
+    req["Accept"] = 'application/json'
+    req["app_id"] = ENV['calnet_app_id']
+    req["app_key"] = ENV['calnet_app_secret']
+
+    response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') {|http|
+      http.request(req)
+    }
+    lectureSections = JSON.parse(response.body)["apiResponse"]["response"]["classSections"]
+    render json: {classes: lectureSections}
   end
 
   def add_class
