@@ -17,7 +17,6 @@ class Search extends React.Component {
     };
 
     this.state = {
-      searchFor: 'department',
       activeDepartments: this.props.departments,
       loading: false,
       activeDept: null,
@@ -36,6 +35,7 @@ class Search extends React.Component {
     this.selectDepartment = this.selectDepartment.bind(this);
     this.deptLoadingScreen = this.deptLoadingScreen.bind(this);
     this.showClasses = this.showClasses.bind(this);
+    this.backToDeptSearch = this.backToDeptSearch.bind(this);
   }
 
   componentDidMount() {
@@ -44,8 +44,13 @@ class Search extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
+    $('.tooltipped').tooltip({delay: 1000});
 
     this.deptFuse = new Fuse(this.props.departments, this.deptSearchOptions);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    $('.tooltipped').tooltip({delay: 1000});
   }
 
   handleDeptSearch() {
@@ -127,14 +132,19 @@ class Search extends React.Component {
       if (!instructor) {
         instructor = "TBD";
       } else {
-        instructor = instructor[0].instructor.names[0].formattedName;
+        instructor = instructor[0].instructor.names;
+        if (!instructor) {
+          instructor = "TBD";
+        } else {
+          instructor = instructor[0].formattedName;
+        }
       }
     }
     return (
-      <tr key={i}>
-        <td>{courseName}</td>
+      <tr key={i} className="hoverable">
+        <td><b>{courseName}</b></td>
         <td>{meeting.meetsDays} {timeString}</td>
-        <td>{meeting.location.description}</td>
+        <td className="hide">{meeting.location.description}</td>
         <td>{instructor}</td>
       </tr>
     );
@@ -176,7 +186,11 @@ class Search extends React.Component {
   showClasses() {
     if (this.state.activeSearchClasses.length == 0) {
       return (
-        <tr><td><h3>No Results!</h3></td></tr>
+        <tr>
+          <td></td>
+          <td><h3>No Results!</h3></td>
+          <td></td>
+        </tr>
       );
     }
     return this.state.activeSearchClasses.map(this.createClassEntry);
@@ -188,12 +202,27 @@ class Search extends React.Component {
 
   clearField() {
     $('#search').val('');
-    this.handleSearch();
+    if (this.state.activeDept) {
+      this.handleClassSearch();
+    } else {
+      this.handleDeptSearch();
+    }
+    
   }
 
   submitForm(e) {
     e.preventDefault();
     $('#search').blur();
+  }
+
+  backToDeptSearch() {
+    this.classFuse = null;
+    this.setState({
+      activeDepartments: this.props.departments,
+      activeDept: null,
+      activeDeptClasses: null,
+      activeSearchClasses: null
+    });
   }
 
   deptLoadingScreen() {
@@ -226,11 +255,11 @@ class Search extends React.Component {
         <div className="content container">
           {this.deptLoadingScreen()}
           <div className="header-container">
-            <a data-position="right" data-delay="1000" data-tooltip="My Schedule" className="btn-floating btn waves-effect waves-light right tooltipped">
-              <i className="material-icons">arrow_back</i>
+            <a href="/" data-position="right" data-delay="1000" data-tooltip="My Schedule" className="btn-floating btn waves-effect waves-light right tooltipped">
+              <i className="material-icons">home</i>
             </a>
             <h4 style={{flex: 1}}>Search For Classes</h4>
-            <a className="btn-floating btn waves-effect waves-light right">
+            <a onClick={this.searchClick} className="btn-floating btn waves-effect waves-light right">
               <i className="material-icons">search</i>
             </a>
           </div>
@@ -256,11 +285,11 @@ class Search extends React.Component {
       return (
         <div className="content container">
           <div className="header-container">
-            <a data-position="right" data-delay="1000" data-tooltip="My Schedule" className="btn-floating btn waves-effect waves-light right tooltipped">
+            <a onClick={this.backToDeptSearch} data-position="right" data-tooltip="Search by Department" className="btn-floating btn waves-effect waves-light left">
               <i className="material-icons">arrow_back</i>
             </a>
             <h4 style={{flex: 1}}>Search For Classes</h4>
-            <a className="btn-floating btn waves-effect waves-light right">
+            <a onClick={this.searchClick} className="btn-floating btn waves-effect waves-light right">
               <i className="material-icons">search</i>
             </a>
           </div>
@@ -276,6 +305,13 @@ class Search extends React.Component {
             </div>
           </nav>
           <table className="highlight bordered centered">
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Meeting Time</th>
+                <th>Instructor</th>
+              </tr>
+            </thead>
             <tbody>
               {this.showClasses()}
             </tbody>
