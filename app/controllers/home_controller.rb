@@ -14,6 +14,10 @@ class HomeController < ApplicationController
     render component: 'Search', props: { departments: @departments }
   end
 
+  def choose
+    render component: 'Choose'
+  end
+
   def classes_from_dept
     uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{params[:short]}&include-secondary=false&status-code=A&page-number=1&page-size=200&component-code=LEC")
     req = Net::HTTP::Get.new(uri)

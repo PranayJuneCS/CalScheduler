@@ -49,6 +49,7 @@ nav {
 
 #dropdown1 {
   width: 250px !important;
+  overflow: hidden !important;
 }
 
 .signout-link {
@@ -196,4 +197,26 @@ h6 {
 
 .sk-cube::before {
   background-color: white !important;
+}
+
+.choice {
+  padding: 10px;
+  transition: background-color 0.5s ease, transform 0.5s ease;
+  color: black;
+  cursor: pointer;
+
+}
+
+.choice:hover {
+  background-color: #009688;
+  color: white;
+  transform: scale(1.05)
+}
+
+.search-choice-container {
+  margin-top: 50px;
+}
+
+.or {
+  margin: 1rem 0 1rem 0;
 }

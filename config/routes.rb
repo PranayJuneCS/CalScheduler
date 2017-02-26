@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   post 'delete_class', to: "home#delete_class"
   get 'classes_from_dept', to: "home#classes_from_dept"
 
+  get 'choose', to: "home#choose"
+
   resources :sessions, only: [:create, :destroy]
   resource :home, only: [:show]
 
