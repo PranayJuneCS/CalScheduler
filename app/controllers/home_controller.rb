@@ -20,7 +20,7 @@ class HomeController < ApplicationController
   end
 
   def ccn
-    render component: 'CCN'
+    render component: 'CCN', props: { ccns: @current_user.current_ccns }
   end
 
   def ccn_search
@@ -99,10 +99,17 @@ class HomeController < ApplicationController
   end
 
   def add_class
-    new_course = Course.new(code: params[:code],
-                            title: params[:title],
+    new_course = Course.new(title: params[:title],
                             day: params[:day],
-                            time: params[:time],
+                            ccn: params[:ccn],
+                            component: params[:component],
+                            start_time: params[:start_time],
+                            end_time: params[:end_time],
+                            location: params[:location],
+                            instructor: params[:instructor],
+                            dept: params[:dept],
+                            code: params[:code],
+                            number: params[:number],
                             user_id: @current_user.id)
     unless new_course.nil?
       new_course.save!
@@ -136,7 +143,7 @@ class HomeController < ApplicationController
                          :refresh_token => @current_user.oauth_token
                          )
 
-    course = Course.find_by_code(params[:code])
+    course = Course.find_by_ccn(params[:ccn])
     event_arr = cal.find_event_by_id(course.event_id)
     if event_arr.present? and event_arr.size == 1
       event = event_arr[0]

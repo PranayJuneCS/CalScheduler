@@ -7,25 +7,17 @@ class ClassInfo extends React.Component {
       ...this.props
     }
 
-    this.dayDict = {
-      mo: 'M',
-      tu: 'Tu',
-      we: 'W',
-      th: 'Th',
-      fr: 'F'
-    };
-
     this.unsyncClass = this.unsyncClass.bind(this);
     this.formatDayTime = this.formatDayTime.bind(this);
     this.loadingSync = this.loadingSync.bind(this);
   }
 
   componentDidMount() {
-    $("." + this.state.code + "-modal").modal();
+    $("." + this.state.dept + this.state.code + "-modal").modal();
   }
 
   componentDidUpdate() {
-    $("." + this.state.code + "-modal").modal();
+    $("." + this.state.dept + this.state.code + "-modal").modal();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,11 +29,12 @@ class ClassInfo extends React.Component {
   unsyncClass(e) {
     this.setState({ removingClass: true });
     var classDict = {
-      code: this.state.code
+      ccn: this.state.ccn
     };
     $.post("/delete_class", classDict)
       .done( (data) => {
-        Materialize.toast(classDict.code + ' has been removed from Google Calendar and your schedule.', 2000, '', () => {
+        var displayName = [this.state.dept, this.state.code, this.state.component].join(" ");
+        Materialize.toast(displayName + ' has been removed from Google Calendar and your schedule.', 2000, '', () => {
           this.setState({ removingClass: false });
           this.state.refreshStatus(data);
         });
@@ -77,15 +70,14 @@ class ClassInfo extends React.Component {
   }
 
   formatDayTime() {
-    var dayString = "";
     var i;
-    var dayArray = this.state.day.split(',');
-    for (i = 0; i < dayArray.length; i++) {
-      dayString += this.dayDict[dayArray[i]];
-    }
+    var dayArray = this.state.day.match(/.{2}/g);
+    var dayString = dayArray.join('');
 
     var timeString = "";
-    var timeArray = this.state.time.split('-');
+    var start = this.state.start_time.split(":").slice(0, 2).join(":");
+    var end = this.state.end_time.split(":").slice(0, 2).join(":");
+    var timeArray = [start, end];
     for (i = 0; i < timeArray.length; i++) {
       var elem = timeArray[i];
       var hour = parseInt(elem.split(':')[0]);
@@ -112,10 +104,10 @@ class ClassInfo extends React.Component {
   render() {
     return (
       <li>
-        <div id={this.state.code + "-removeModal"} className={"modal " + this.state.code + "-modal"}>
+        <div id={this.state.dept + this.state.code + "-removeModal"} className={"modal " + this.state.dept + this.state.code + "-modal"}>
           <div className="modal-content">
-            <h4>Delete {this.state.code}?</h4>
-            <p>Once you delete {this.state.code}, it will no longer be present in your schedule or in Google Calendar.</p>
+            <h4>Delete {this.state.dept} {this.state.code}?</h4>
+            <p>Once you delete {this.state.dept} {this.state.code}, it will no longer be present in your schedule or in Google Calendar.</p>
           </div>
           <div className="divider"></div>
           <div className="modal-footer">
@@ -126,7 +118,7 @@ class ClassInfo extends React.Component {
         {this.syncedBadge()}
         <div className="collapsible-header">
           <div>
-            <span className="course-title">{this.state.code}</span>
+            <span className="course-title">{this.state.dept} {this.state.code} {this.state.component}</span>
             <span className="course-time">{this.formatDayTime()}</span>
           </div>
         </div>
@@ -140,7 +132,7 @@ class ClassInfo extends React.Component {
                 <span>Th 3-4</span>
               </div>
               <div className="col s6">
-                <a href={"#" + this.state.code + "-removeModal"} className="sync-button waves-effect waves-light btn">
+                <a href={"#" + this.state.dept + this.state.code + "-removeModal"} className="sync-button waves-effect waves-light btn">
                   <i className={this.loadingSync("fa-times")}></i>
                   Delete
                 </a>

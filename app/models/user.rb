@@ -14,4 +14,8 @@ class User < ApplicationRecord
       user.save!
     end
   end
+
+  def current_ccns
+    self.courses.map { |course| course.ccn }
+  end
 end

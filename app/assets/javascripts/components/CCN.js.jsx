@@ -7,11 +7,14 @@ class CCN extends React.Component {
       searching: false,
       searchError: null,
       course: null,
-      ccnState: "down"
+      ccnState: "down",
+      addingClass: false,
+      ccns: this.props.ccns
     }
     
     this.submitForm = this.submitForm.bind(this);
     this.clearField = this.clearField.bind(this);
+    this.searchClick = this.searchClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.loading = this.loading.bind(this);
     this.inputError = this.inputError.bind(this);
@@ -19,6 +22,8 @@ class CCN extends React.Component {
     this.courseInfo = this.courseInfo.bind(this);
     this.toggleCCNInfo = this.toggleCCNInfo.bind(this);
     this.formatClassTime = this.formatClassTime.bind(this);
+    this.addClass = this.addClass.bind(this);
+    this.scheduleStatus = this.scheduleStatus.bind(this);
   }
 
   componentDidMount() {
@@ -44,7 +49,7 @@ class CCN extends React.Component {
           } else {
             this.setState({ course: data.course, searching: false });
           }
-        }, 100);
+        }, 1800);
       }).fail( (e) => {
         this.setState({ searching: false });
         console.log("SHIZ");
@@ -61,6 +66,10 @@ class CCN extends React.Component {
     e.preventDefault();
     $('#search').blur();
     this.handleSearch();
+  }
+
+  searchClick() {
+    $('#search').focus();
   }
 
   loading() {
@@ -140,13 +149,78 @@ class CCN extends React.Component {
     return timeString;
   }
 
+  addClass(e) {
+    this.setState({ addingClass: true });
+    var classDict = {
+      title: this.state.course.title,
+      day: this.state.course.meetsDays,
+      ccn: this.state.course.ccn,
+      component: this.state.course.component,
+      start_time: this.state.course.startTime,
+      end_time: this.state.course.endTime,
+      location: this.state.course.location,
+      instructor: this.state.course.instructor,
+      dept: this.state.course.subject_area,
+      code: this.state.course.catalog_number,
+      number: this.state.course.number
+    };
+    $.post("/add_class", classDict)
+      .done( (data) => {
+        var displayName = [classDict.dept, classDict.code, classDict.component, classDict.number].join(' ')
+        Materialize.toast(displayName + ' has been added to your schedule!', 2000, '', () => {
+          var currCCNs = this.state.ccns;
+          currCCNs.push(this.state.course.ccn);
+          this.setState({ addingClass: false, ccns: currCCNs });
+        });
+      }).fail( function(e) {
+        console.log("SHIZ");
+      });
+  }
+
+  scheduleStatus() {
+    if (this.state.ccns.indexOf(this.state.course.ccn) >= 0) {
+      return (
+        <div>
+          <div className="col s4 hide-on-large-only">
+            <p><i className="fa fa-check fa-2x"></i></p>
+          </div>
+          <div className="col s4 hide-on-med-and-down">
+            <p>Already In Your Schedule!</p>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <div className="col s4 hide-on-large-only">
+            <p>
+              <a onClick={this.addClass} className="btn-floating waves-effect waves-light teal darken-1">
+                {!this.state.addingClass && <i className="material-icons">add</i>}
+                {this.state.addingClass && <i className="fa fa-spinner fa-pulse fa-fw"></i>}
+              </a>
+            </p>
+          </div>
+          <div className="col s4 hide-on-med-and-down">
+            <p>
+              <a onClick={this.addClass} className="waves-effect waves-light btn teal darken-1">
+                {!this.state.addingClass && <i className="fa fa-plus left"></i>}
+                {this.state.addingClass && <i className="fa fa-spinner fa-pulse fa-fw left"></i>}
+                Add To Schedule
+              </a>
+            </p>
+          </div>
+        </div>
+      );
+    }
+  }
+
   courseInfo() {
     if (this.state.course) {
       var course = this.state.course;
       var displayName = [course.subject_area, course.catalog_number, course.component, course.number].join(' ')
       var timeString = this.formatClassTime(course.startTime, course.endTime);
       return (
-        <div>
+        <div className="animated zoomIn">
           <h5>Here is CCN <b>{course.ccn}</b>:</h5>
           <div className="z-depth-1 ccn-class-info">
             <div className="content">
@@ -177,21 +251,7 @@ class CCN extends React.Component {
                   <p className="one-line-height"><b>{course.meetsDays}</b></p>
                   <p className="one-line-height">{timeString}</p>
                 </div>
-                <div className="col s4 hide-on-large-only">
-                  <p>
-                    <a className="btn-floating waves-effect waves-light teal darken-1">
-                      <i className="material-icons">add</i>
-                    </a>
-                  </p>
-                </div>
-                <div className="col s4 hide-on-med-and-down">
-                  <p>
-                    <a className="waves-effect waves-light btn teal darken-1">
-                      <i className="fa fa-plus left"></i>
-                      Add To Schedule
-                    </a>
-                  </p>
-                </div>
+                {this.scheduleStatus()}
               </div>
               <div onClick={this.toggleCCNInfo} className="ccn-more-container">
                 <i className={"fa fa-chevron-" + this.state.ccnState + " fa-lg"}></i>
@@ -207,7 +267,15 @@ class CCN extends React.Component {
   render() {
     return (
       <div className="content container">
-        <h2>Add a Course</h2>
+        <div className="header-container">
+          <a href="/" className="btn-floating btn waves-effect waves-light">
+            <i className="material-icons">home</i>
+          </a>
+          <h4 style={{flex: 1}}>Add a Course</h4>
+          <a onClick={this.searchClick} className="btn-floating btn waves-effect waves-light right">
+            <i className="material-icons">search</i>
+          </a>
+        </div>
         <nav id="class-search" className="animated fadeIn">
           <div className="nav-wrapper">
             <form onSubmit={this.submitForm}>

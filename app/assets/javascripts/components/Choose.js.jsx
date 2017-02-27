@@ -2,7 +2,6 @@ class Choose extends React.Component {
   
   constructor(props) {
     super(props);
-    
   }
 
   componentDidMount() {
@@ -16,7 +15,7 @@ class Choose extends React.Component {
   render() {
     return (
       <div className="content container">
-        <h2>Add a Course</h2>
+        <h4>Add a Course</h4>
         <div className="row search-choice-container">
           <div className="col s12 m6">
             <a href="/ccn">

@@ -154,7 +154,6 @@ class Search extends React.Component {
     this.setState({ loading: true, activeDept: dept });
     $.get("/classes_from_dept", {short: dept.short})
       .done( (data) => {
-        console.log(data);
         var classSearchOptions = {
           shouldSort: true,
           threshold: 0.2,
