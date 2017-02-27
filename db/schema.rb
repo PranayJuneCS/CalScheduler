@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227022109) do
+ActiveRecord::Schema.define(version: 20170227061806) do
 
   create_table "courses", force: :cascade do |t|
     t.string   "title"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 20170227022109) do
     t.string   "dept"
     t.string   "code"
     t.string   "number"
-    t.index ["ccn"], name: "index_courses_on_ccn", unique: true
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
