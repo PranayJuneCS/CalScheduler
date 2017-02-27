@@ -14,6 +14,9 @@ class ClassOverview extends React.Component {
   }
 
   componentDidMount() {
+    $('.collapsible').collapsible({
+      onOpen: function(el) {}
+    });
     $(".dropdown-button").dropdown({
       hover: false,
       belowOrigin: true,
