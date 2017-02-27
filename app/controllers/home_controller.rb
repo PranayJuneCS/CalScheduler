@@ -1,6 +1,7 @@
 require 'net/http'
 
 class HomeController < ApplicationController
+
   def show
     render component: 'Home', props: { current_user: @current_user,
                                        courses: @current_courses }
@@ -16,6 +17,56 @@ class HomeController < ApplicationController
 
   def choose
     render component: 'Choose'
+  end
+
+  def ccn
+    render component: 'CCN'
+  end
+
+  def ccn_search
+    uri = URI.parse("https://apis.berkeley.edu/uat/sis/v1/classes/sections/#{params[:ccn]}?term-id=2172")
+    req = Net::HTTP::Get.new(uri)
+
+    req["Accept"] = 'application/json'
+    req["app_id"] = ENV['calnet_app_id']
+    req["app_key"] = ENV['calnet_app_secret']
+
+    response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') {|http|
+      http.request(req)
+    }
+    resp_body = JSON.parse(response.body)["apiResponse"]
+    if resp_body["httpStatus"]["code"] == "404"
+      render json: {code: "404", message: "No Class Corresponds with this CCN. Try Again."}
+    elsif resp_body["httpStatus"]["code"] == "200"
+      ccn = params[:ccn]
+      section = resp_body["response"]["classSections"][0]
+      number = helpers.parse_number(section)
+      component = helpers.parse_component(section)
+      meetsDays = helpers.parse_meetings(section)
+      startTime, endTime = helpers.parse_timing(section)
+      location = helpers.parse_location(section)
+      instructor = helpers.parse_instructor(section)
+      subject_area = helpers.parse_subject_area(section)
+      catalog_number = helpers.parse_catalog_number(section)
+      course_title = helpers.parse_course_title(section)
+      render json: {code: "200",
+                    course: {
+                      ccn: ccn,
+                      number: number,
+                      component: component,
+                      meetsDays: meetsDays,
+                      startTime: startTime,
+                      endTime: endTime,
+                      location: location,
+                      instructor: instructor,
+                      subject_area: subject_area,
+                      catalog_number: catalog_number,
+                      title: course_title
+                    }
+                   }
+    else
+      render json: {code: "400", message: "An Error Occurred with the Search. Try Again."}
+    end
   end
 
   def classes_from_dept

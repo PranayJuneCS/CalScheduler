@@ -196,15 +196,13 @@ h6 {
 }
 
 .sk-cube::before {
-  background-color: white !important;
+  background-color: #00796b !important;
 }
 
 .choice {
   padding: 10px;
   transition: background-color 0.5s ease, transform 0.5s ease;
   color: black;
-  cursor: pointer;
-
 }
 
 .choice:hover {
@@ -219,4 +217,35 @@ h6 {
 
 .or {
   margin: 1rem 0 1rem 0;
+}
+
+.alt-search {
+  margin: 2.5rem;
+}
+
+.clear-field {
+  margin-right: 2em;
+}
+
+.ccn-class-info {
+  background-color: white;
+  padding: 5px;
+  padding-bottom: 0px;
+}
+
+.no-margin-bottom {
+  margin-bottom: 0px !important;
+}
+
+.ccn-more-container {
+  border-top: #d3d3d3 1px solid;
+  padding: 4px;
+}
+
+#ccn-action {
+  display: none;
+}
+
+.one-line-height {
+  line-height: 1.0 !important;
 }

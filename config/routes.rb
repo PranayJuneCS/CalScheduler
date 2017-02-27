@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get 'classes_from_dept', to: "home#classes_from_dept"
 
   get 'choose', to: "home#choose"
+  get 'ccn', to: "home#ccn"
+  get 'ccn_search', to: "home#ccn_search"
 
   resources :sessions, only: [:create, :destroy]
   resource :home, only: [:show]

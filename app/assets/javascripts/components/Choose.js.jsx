@@ -19,10 +19,12 @@ class Choose extends React.Component {
         <h2>Add a Course</h2>
         <div className="row search-choice-container">
           <div className="col s12 m6">
-            <div className="choice z-depth-1">
-              <i className="fa fa-id-badge fa-5x"></i>
-              <h5>Search by CCN (Course ID)</h5>
-            </div>
+            <a href="/ccn">
+              <div className="choice z-depth-1">
+                <i className="fa fa-id-badge fa-5x"></i>
+                <h5>Search by CCN (Course ID)</h5>
+              </div>
+            </a>
           </div>
           <div className="col s12 divider or hide-on-med-and-up">
           </div>
