@@ -17,19 +17,23 @@ class DepartmentEntry extends React.Component {
     $("#" + this.props.short + "-codes").slideToggle("slow");
     if (this.state.codesState == "up") {
       this.setState({ codesState: "down" });
+      $(".alt-ccn-search").removeClass("hide");
     } else {
       this.setState({ codesState: "up" });
+      $(".alt-ccn-search").addClass("hide");
     }
   }
 
   codePressed(e) {
-    e.preventDefault();
-    console.log(this.props.short);
+    var specificCourse = $(e.currentTarget).attr('id').split('-');
+    var dept = specificCourse[0];
+    var code = specificCourse[1];
+
   }
 
   courseCircles(code, i) {
     return (
-      <a key={i} onClick={this.codePressed}>
+      <a key={i} href={"/course/" + this.props.short.toLowerCase() + "/" + code} id={this.props.short + "-" + code}>
         <div className="code-container col l2 m3 s4 teal lighten-2 white-text z-depth-1">
           <p>{code}</p>
         </div>

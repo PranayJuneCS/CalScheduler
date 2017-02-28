@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   get 'course', to: "home#course"
   get 'codes_from_dept', to: "home#codes_from_dept"
+  get 'course/*dept/*code', to: "home#specific_course"
 
   resources :sessions, only: [:create, :destroy]
   resource :home, only: [:show]
