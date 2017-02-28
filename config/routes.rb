@@ -17,7 +17,8 @@ Rails.application.routes.draw do
 
   get 'course', to: "home#course"
   get 'codes_from_dept', to: "home#codes_from_dept"
-  get 'course/*dept/*code', to: "home#specific_course"
+  get 'course/*dept/*code', to: "home#specific_course", :constraints => { :code => /[^\/]+/ }
+  get 'all_courses', to: "home#all_courses"
 
   resources :sessions, only: [:create, :destroy]
   resource :home, only: [:show]

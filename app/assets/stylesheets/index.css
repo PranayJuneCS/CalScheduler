@@ -199,6 +199,10 @@ h6 {
   background-color: #00796b !important;
 }
 
+.load::before {
+  background-color: #212121 !important;
+}
+
 .choice {
   padding: 10px;
   transition: background-color 0.5s ease, transform 0.5s ease;

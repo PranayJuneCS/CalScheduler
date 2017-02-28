@@ -27,12 +27,68 @@ class HomeController < ApplicationController
     render component: 'CourseID', props: { departments: @departments, ccns: @current_user.current_ccns }
   end
 
+  def all_courses
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{params[:dept]}&catalog-number=#{params[:code]}&include-secondary=true&status-code=A")
+    req = Net::HTTP::Get.new(uri)
+
+    req["Accept"] = 'application/json'
+    req["app_id"] = ENV['calnet_app_id']
+    req["app_key"] = ENV['calnet_app_secret']
+
+    response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') {|http|
+      http.request(req)
+    }
+    resp_body = JSON.parse(response.body)["apiResponse"]
+    if resp_body["httpStatus"]["code"] != "200"
+      render json: {code: "404", message: "Invalid Request."}
+    else
+      sections = resp_body["response"]["classSections"]
+      lecs = []
+      discs = []
+      labs = []
+      sems = []
+      inds = []
+      grps = []
+      others = []
+      sections.each do |section|
+        case section["component"]["code"]
+        when "LEC"
+          lecs << section
+        when "DIS"
+          discs << section
+        when "LAB"
+          labs << section
+        when "SEM"
+          sems << section
+        when "IND"
+          inds << section
+        when "GRP"
+          grps << section
+        else
+          others << section
+        end
+      end
+      render json: {code: "200",
+                    sections: {
+                      lecs: lecs,
+                      discs: discs,
+                      labs: labs,
+                      sems: sems,
+                      inds: inds,
+                      grps: grps,
+                      others: others
+                    }
+                   }
+    end
+  end
+
   def specific_course
     dept = Department.where(short: params[:dept])
     if dept.any?
       code = dept[0].codes.where(code: params[:code])
       if code.any?
-        render component: 'SpecificCourse', props: { dept: params[:dept], code: params[:code] } and return
+        all_codes = dept[0].codes.map { |code_obj| code_obj["code"] }
+        render component: 'SpecificCourse', props: { dept: params[:dept], code: params[:code], all_codes: all_codes } and return
       end
     end
     render json: {message: "Invalid Course!"}
