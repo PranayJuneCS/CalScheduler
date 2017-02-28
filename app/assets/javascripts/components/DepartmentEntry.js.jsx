@@ -33,7 +33,7 @@ class DepartmentEntry extends React.Component {
 
   courseCircles(code, i) {
     return (
-      <a key={i} href={"/course/" + this.props.short.toLowerCase() + "/" + code} id={this.props.short + "-" + code}>
+      <a key={i} href={"/course/" + this.props.short + "/" + code} id={this.props.short + "-" + code}>
         <div className="code-container col l2 m3 s4 teal lighten-2 white-text z-depth-1">
           <p>{code}</p>
         </div>

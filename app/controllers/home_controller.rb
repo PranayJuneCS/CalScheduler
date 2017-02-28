@@ -28,11 +28,11 @@ class HomeController < ApplicationController
   end
 
   def specific_course
-    dept = Department.where(short: params[:dept].upcase)
+    dept = Department.where(short: params[:dept])
     if dept.any?
       code = dept[0].codes.where(code: params[:code])
       if code.any?
-        render component: 'SpecificCourse', props: { dept: params[:dept].upcase, code: params[:code] } and return
+        render component: 'SpecificCourse', props: { dept: params[:dept], code: params[:code] } and return
       end
     end
     render json: {message: "Invalid Course!"}
