@@ -23,8 +23,22 @@ class HomeController < ApplicationController
     render component: 'CCN', props: { ccns: @current_user.current_ccns }
   end
 
+  def course
+    render component: 'CourseID', props: { departments: @departments, ccns: @current_user.current_ccns }
+  end
+
+  def codes_from_dept
+    department = Department.where(short: params[:short])
+    unless (department.any? or department.length == 1)
+      render json: {code: "404", message: "Invalid Department."}
+    else
+      code_arr = department[0].codes.map { |code_obj| code_obj["code"] }
+      render json: {code: "200", codes: code_arr}
+    end
+  end
+
   def ccn_search
-    uri = URI.parse("https://apis.berkeley.edu/uat/sis/v1/classes/sections/#{params[:ccn]}?term-id=2172")
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections/#{params[:ccn]}?term-id=2172")
     req = Net::HTTP::Get.new(uri)
 
     req["Accept"] = 'application/json'

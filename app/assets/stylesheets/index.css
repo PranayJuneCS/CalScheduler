@@ -249,3 +249,30 @@ h6 {
 .one-line-height {
   line-height: 1.0 !important;
 }
+
+.alt-ccn-search {
+  position: fixed;
+  bottom: 5%;
+  transform: translateX(-50%);
+  padding: 0 1.2rem !important;
+}
+
+.more-info {
+  display: none;
+}
+
+.dept-entry:hover .more-info {
+  display: block;
+}
+
+.dept-codes {
+  display: none;
+}
+
+.code-container {
+  border: #f2f2f2 1px solid;
+}
+
+.code-container:hover {
+  transform: scale(1.05);
+}

@@ -292,6 +292,7 @@ class Search extends React.Component {
               <i className="material-icons">search</i>
             </a>
           </div>
+          
           <nav id="class-search">
             <div className="nav-wrapper">
               <form onSubmit={this.submitForm}>

@@ -1,3 +1,5 @@
+require 'set'
+
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :current_user
@@ -8,5 +10,6 @@ class ApplicationController < ActionController::Base
       @current_courses = @current_user.courses
       @departments = Department.all
     end
+    
   end
 end

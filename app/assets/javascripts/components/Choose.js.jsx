@@ -28,10 +28,12 @@ class Choose extends React.Component {
           <div className="col s12 divider or hide-on-med-and-up">
           </div>
           <div className="col s12 m6">
-            <div className="choice z-depth-1">
-              <i className="fa fa-info-circle fa-5x"></i>
-              <h5>Search by Course Info</h5>
-            </div>
+            <a href="/course">
+              <div className="choice z-depth-1">
+                <i className="fa fa-info-circle fa-5x"></i>
+                <h5>Search by Course Info</h5>
+              </div>
+            </a>
           </div>
         </div>
       </div>

@@ -292,7 +292,7 @@ class CCN extends React.Component {
         {this.searchError()}
         {this.loading()}
         {this.courseInfo()}
-        <a className="alt-search waves-effect waves-light btn"><i className="fa fa-info-circle left"></i>Search by Course Info</a>
+        <a href="/course" className="alt-search waves-effect waves-light btn"><i className="fa fa-info-circle left"></i>Search by Course Info</a>
       </div>
     );
   }
