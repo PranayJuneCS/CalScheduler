@@ -22,8 +22,12 @@ class ClassOverview extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
-    $("#my-schedule").modal();
+    $(".calendar-icon").addClass("hide");
     $('.tooltipped').tooltip({delay: 1000});
+  }
+
+  componentWillUnmount() {
+    $(".calendar-icon").removeClass("hide");
   }
 
   refreshStatus(data) {

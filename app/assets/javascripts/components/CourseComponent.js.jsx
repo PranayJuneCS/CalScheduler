@@ -23,7 +23,7 @@ class CourseComponent extends React.Component {
     this.setState({ addingCourse: course });
     var startTime = "00:00:00";
     var endTime = "00:00:00";
-    var meetsDays = "";
+    var meetsDays = "TBD";
     var location = "TBD";
     var instructor = "TBD"; 
     if (course.meetings) {

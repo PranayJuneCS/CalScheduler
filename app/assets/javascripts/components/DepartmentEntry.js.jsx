@@ -10,7 +10,6 @@ class DepartmentEntry extends React.Component {
     this.onPress = this.onPress.bind(this); 
     this.toggleCodesInfo = this.toggleCodesInfo.bind(this);
     this.courseCircles = this.courseCircles.bind(this);
-    this.codePressed = this.codePressed.bind(this);
   }
 
   toggleCodesInfo() {
@@ -22,13 +21,6 @@ class DepartmentEntry extends React.Component {
       this.setState({ codesState: "up" });
       $(".alt-ccn-search").addClass("hide");
     }
-  }
-
-  codePressed(e) {
-    var specificCourse = $(e.currentTarget).attr('id').split('-');
-    var dept = specificCourse[0];
-    var code = specificCourse[1];
-
   }
 
   courseCircles(code, i) {

@@ -27,6 +27,10 @@ class HomeController < ApplicationController
     render component: 'CourseID', props: { departments: @departments, ccns: @current_user.current_ccns }
   end
 
+  def my_schedule
+    render json: {courses: @current_user.courses}
+  end
+
   def all_courses
     uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{params[:dept]}&catalog-number=#{params[:code]}&include-secondary=true&status-code=A")
     req = Net::HTTP::Get.new(uri)
@@ -198,6 +202,7 @@ class HomeController < ApplicationController
                             user_id: @current_user.id)
     unless new_course.nil?
       new_course.save!
+      @current_courses = @current_user.courses
       head :ok
     else
       head 500

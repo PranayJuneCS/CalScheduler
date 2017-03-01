@@ -19,6 +19,7 @@ class ClassInfo extends React.Component {
 
   componentDidUpdate() {
     $("." + this.state.dept + this.state.code + this.state.component + this.state.number + "-modal").modal();
+    $("#my-schedule").modal();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,8 +73,11 @@ class ClassInfo extends React.Component {
 
   formatDayTime() {
     var i;
-    var dayArray = this.state.day.match(/.{2}/g);
-    var dayString = dayArray.join('');
+    var dayString = this.state.day;
+    if (this.state.day != "TBD") {
+      var dayArray = this.state.day.match(/.{2}/g);
+      var dayString = dayArray.join('');
+    }
 
     var timeString = "";
     var start = this.state.start_time.split(":").slice(0, 2).join(":");

@@ -43,6 +43,7 @@ class SpecificCourse extends React.Component {
     this.submitForm = this.submitForm.bind(this);
     this.switchCourse = this.switchCourse.bind(this);
     this.clearField = this.clearField.bind(this);
+    this.courseCircles = this.courseCircles.bind(this);
   }
 
   componentDidMount() {
@@ -140,6 +141,16 @@ class SpecificCourse extends React.Component {
     return;
   }
 
+  courseCircles(code, i) {
+    return (
+      <a key={i} href={"/course/" + this.props.dept + "/" + code} id={this.props.short + "-" + code}>
+        <div className="code-container col l3 m3 s4 teal lighten-2 white-text z-depth-1">
+          <p>{code}</p>
+        </div>
+      </a>
+    );
+  }
+
   submitForm(e) {
     e.preventDefault();
     $("#search").blur();
@@ -215,19 +226,13 @@ class SpecificCourse extends React.Component {
                 </div>
               </div>
               <div className="card-action">
-                <h6>Switch {this.props.dept} Course</h6> 
-                <nav id="class-search" className="">
-                  <div className="nav-wrapper">
-                    <form onSubmit={this.submitForm}>
-                      <div className="input-field">
-                        <input placeholder="Search" className="autocomplete" id="search" type="search" autoComplete="off" required maxLength="8"/>
-                        <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
-                        <i onClick={this.clearField} className="material-icons">close</i>
-                      </div>
-                    </form>
-                  </div>
-                </nav>
-                <a onClick={this.switchCourse} className="margin-top-10 waves-effect waves-light btn">Go</a>
+                <h6 className="activator btn-flat show-codes-button">Switch {this.props.dept} Course</h6>
+              </div>
+              <div className="card-reveal">
+                <span className="card-title grey-text text-darken-4">{this.props.dept} Courses<i className="material-icons right">close</i></span>
+                <div className="row all-codes-container">
+                  {this.props.all_codes.map(this.courseCircles)}
+                </div>
               </div>
             </div>
           </div>
