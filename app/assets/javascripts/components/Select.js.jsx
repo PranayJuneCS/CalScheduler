@@ -89,6 +89,7 @@ class Select extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
+    $("#my-schedule").modal();
     $('.tooltipped').tooltip({delay: 1000});
 
     this.fuse = new Fuse(this.allClasses, this.searchOptions);

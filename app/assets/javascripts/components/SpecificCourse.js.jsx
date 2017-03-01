@@ -51,6 +51,7 @@ class SpecificCourse extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
+    $("#my-schedule").modal();
 
     $('input.autocomplete').autocomplete({
       data: this.codesDir,

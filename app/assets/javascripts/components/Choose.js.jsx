@@ -10,6 +10,7 @@ class Choose extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
+    $("#my-schedule").modal();
   }
 
   render() {

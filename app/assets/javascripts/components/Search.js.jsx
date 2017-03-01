@@ -44,6 +44,7 @@ class Search extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
+    $("#my-schedule").modal();
     $('.tooltipped').tooltip({delay: 1000});
 
     this.deptFuse = new Fuse(this.props.departments, this.deptSearchOptions);

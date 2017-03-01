@@ -14,6 +14,7 @@ class ClassInfo extends React.Component {
 
   componentDidMount() {
     $("." + this.state.dept + this.state.code + this.state.component + this.state.number + "-modal").modal();
+    $("#my-schedule").modal();
   }
 
   componentDidUpdate() {

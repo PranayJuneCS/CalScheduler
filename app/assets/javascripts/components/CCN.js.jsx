@@ -32,6 +32,7 @@ class CCN extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
+    $("#my-schedule").modal();
   }
 
   handleSearch() {

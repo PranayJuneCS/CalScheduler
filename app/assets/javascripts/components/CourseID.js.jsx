@@ -34,6 +34,7 @@ class CourseID extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
+    $("#my-schedule").modal();
 
     this.deptFuse = new Fuse(this.props.departments, this.deptSearchOptions);
   }
