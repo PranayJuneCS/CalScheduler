@@ -13,11 +13,11 @@ class ClassInfo extends React.Component {
   }
 
   componentDidMount() {
-    $("." + this.state.dept + this.state.code + "-modal").modal();
+    $("." + this.state.dept + this.state.code + this.state.component + this.state.number + "-modal").modal();
   }
 
   componentDidUpdate() {
-    $("." + this.state.dept + this.state.code + "-modal").modal();
+    $("." + this.state.dept + this.state.code + this.state.component + this.state.number + "-modal").modal();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,7 +33,7 @@ class ClassInfo extends React.Component {
     };
     $.post("/delete_class", classDict)
       .done( (data) => {
-        var displayName = [this.state.dept, this.state.code, this.state.component].join(" ");
+        var displayName = [this.state.dept, this.state.code, this.state.component, this.state.number].join(" ");
         Materialize.toast(displayName + ' has been removed from Google Calendar and your schedule.', 2000, '', () => {
           this.setState({ removingClass: false });
           this.state.refreshStatus(data);
@@ -104,10 +104,10 @@ class ClassInfo extends React.Component {
   render() {
     return (
       <li>
-        <div id={this.state.dept + this.state.code + "-removeModal"} className={"modal " + this.state.dept + this.state.code + "-modal"}>
+        <div id={this.state.dept + this.state.code + this.state.component + this.state.number + "-removeModal"} className={"modal " + this.state.dept + this.state.code + this.state.component + this.state.number + "-modal"}>
           <div className="modal-content">
-            <h4>Delete {this.state.dept} {this.state.code}?</h4>
-            <p>Once you delete {this.state.dept} {this.state.code}, it will no longer be present in your schedule or in Google Calendar.</p>
+            <h4>Delete {this.state.dept} {this.state.code} {this.state.component} {this.state.number}?</h4>
+            <p>Once you delete <b>{this.state.dept} {this.state.code} {this.state.component} {this.state.number}</b>, it will no longer be present in your schedule or in Google Calendar.</p>
           </div>
           <div className="divider"></div>
           <div className="modal-footer">
@@ -118,8 +118,8 @@ class ClassInfo extends React.Component {
         {this.syncedBadge()}
         <div className="collapsible-header">
           <div>
-            <span className="course-title">{this.state.dept} {this.state.code} {this.state.component}</span>
-            <span className="course-time">{this.formatDayTime()}</span>
+            <span className="course-title">{this.state.dept} {this.state.code} {this.state.component} {this.state.number}</span>
+            <span className="course-time">{this.state.instructor}</span>
           </div>
         </div>
         <div className="collapsible-body">
@@ -128,11 +128,11 @@ class ClassInfo extends React.Component {
             <div className="divider"></div>
             <div className="row">
               <div className="col s6">
-                <h6>Discussion Section</h6>
-                <span>Th 3-4</span>
+                <h6>{this.formatDayTime()}</h6>
+                <span>{this.state.location}</span>
               </div>
               <div className="col s6">
-                <a href={"#" + this.state.dept + this.state.code + "-removeModal"} className="sync-button waves-effect waves-light btn">
+                <a href={"#" + this.state.dept + this.state.code + this.state.component + this.state.number + "-removeModal"} className="sync-button waves-effect waves-light btn">
                   <i className={this.loadingSync("fa-times")}></i>
                   Delete
                 </a>
