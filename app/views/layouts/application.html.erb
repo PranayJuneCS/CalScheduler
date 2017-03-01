@@ -17,38 +17,40 @@
     </noscript>
   </head>
 
-  <nav>
-    <div class="nav-wrapper">
-      <a href="/" class="brand-logo center">Cal Scheduler</a>
-      <% unless @current_user.nil? %>
-        <div id="dropdown1" class="card container dropdown-content">
-          <div class="info-card card-content black-text">
-            <div class="info-content">
-              <div class="img-container">
-                <img class="circle responsive-img" src=<%= @current_user.image %>>
-              </div>
-              <div class="personal-container">
-                <div><p class="my-name"><%= @current_user.name %></p></div>
-                <div><p class="my-email truncate"><%= @current_user.email %></p></div>
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo center">Cal Scheduler</a>
+        <% unless @current_user.nil? %>
+          <div id="dropdown1" class="card container dropdown-content">
+            <div class="info-card card-content black-text">
+              <div class="info-content">
+                <div class="img-container">
+                  <img class="circle responsive-img" src=<%= @current_user.image %>>
+                </div>
+                <div class="personal-container">
+                  <div><p class="my-name"><%= @current_user.name %></p></div>
+                  <div><p class="my-email truncate"><%= @current_user.email %></p></div>
+                </div>
               </div>
             </div>
+            <div class="sign-out-container card-action content">
+              <a href="/signout" class="signout-link z-depth-2">
+                <i class="fa fa-sign-out"></i>
+                Sign Out
+              </a>
+            </div>
           </div>
-          <div class="sign-out-container card-action content">
-            <a href="/signout" class="signout-link z-depth-2">
-              <i class="fa fa-sign-out"></i>
-              Sign Out
-            </a>
-          </div>
-        </div>
-        <a class="dropdown-button info-button right hide-on-small-only" data-activates="dropdown1">
-          <i class="fa fa-info-circle fa-3x"></i>
-        </a>
-        <a class="dropdown-button info-button right hide-on-med-and-up" data-activates="dropdown1">
-          <i class="fa fa-info-circle fa-2x padding-top-15"></i>
-        </a>
-      <% end %>
-    </div>
-  </nav>
+          <a class="dropdown-button info-button right hide-on-small-only" data-activates="dropdown1">
+            <i class="fa fa-info-circle fa-3x"></i>
+          </a>
+          <a class="dropdown-button info-button right hide-on-med-and-up" data-activates="dropdown1">
+            <i class="fa fa-info-circle fa-2x padding-top-15"></i>
+          </a>
+        <% end %>
+      </div>
+    </nav>
+  </div>
   <body>
     <%= yield %>
   </body>

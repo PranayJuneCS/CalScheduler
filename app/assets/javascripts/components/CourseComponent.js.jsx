@@ -5,13 +5,18 @@ class CourseComponent extends React.Component {
 
     this.state = {
       addingCourse: null,
-      ccns: this.props.ccns
+      ccns: this.props.ccns,
+      visible: this.props.visible
     }
 
     this.showCourse = this.showCourse.bind(this);
     this.showMoreInfo = this.showMoreInfo.bind(this);
     this.courseInScheduleStatus = this.courseInScheduleStatus.bind(this);
+    this.visible = this.visible.bind(this); 
+  }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ visible: nextProps.visible });
   }
 
   showMoreInfo(course) {
@@ -146,9 +151,16 @@ class CourseComponent extends React.Component {
     }
   }
 
+  visible() {
+    if (this.state.visible == 0) {
+      return "hide";
+    }
+    return "";
+  }
+
   render() {
     return (
-      <div>
+      <div className={this.visible()}>
         <div className="section">
           <h5 className="text-left">{this.props.component}</h5>
           {this.props.courses.map(this.showCourse)}

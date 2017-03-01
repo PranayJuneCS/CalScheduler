@@ -295,3 +295,11 @@ h6 {
 .add-course-plus {
   cursor: pointer;
 }
+
+.margin-top-10 {
+  margin-top: 10px;
+}
+
+.fixed {
+  position: fixed !important;
+}

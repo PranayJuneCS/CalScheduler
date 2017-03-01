@@ -6,9 +6,24 @@ class SpecificCourse extends React.Component {
     this.state = {
       loadingCourses: true,
       courses: false,
-      ccns: this.props.ccns
+      ccns: this.props.ccns,
+      checked: {
+        LEC: 1,
+        DIS: 1,
+        LAB: 1,
+        IND: 1,
+        SEM: 1,
+        GRP: 1,
+        OTH: 1
+      }
 
     };
+
+    this.codesDir = {};
+    var i;
+    for (i = 0; i < this.props.all_codes.length; i++) {
+      this.codesDir[this.props.all_codes[i]] = null;
+    }
 
     this.translateDict = {
       LEC: "Lectures",
@@ -24,6 +39,9 @@ class SpecificCourse extends React.Component {
     this.loadCourses = this.loadCourses.bind(this);
     this.displayCourses = this.displayCourses.bind(this);
     this.updateCCNs = this.updateCCNs.bind(this);
+    this.onFilterChange = this.onFilterChange.bind(this);
+    this.submitForm = this.submitForm.bind(this);
+    this.switchCourse = this.switchCourse.bind(this);
   }
 
   componentDidMount() {
@@ -31,6 +49,11 @@ class SpecificCourse extends React.Component {
       hover: false,
       belowOrigin: true,
       gutter: 0
+    });
+
+    $('input.autocomplete').autocomplete({
+      data: this.codesDir,
+      limit: 5
     });
 
     this.loadCourses();
@@ -90,11 +113,31 @@ class SpecificCourse extends React.Component {
               courses={this.state[component]}
               ccns={this.state.ccns}
               updateCCNs={this.updateCCNs}
+              visible={this.state.checked[component]}
             />
           );
         })}
       </div>
     );
+  }
+
+  onFilterChange(comp) {
+    var checkedState = this.state.checked;
+    checkedState[comp] = 1 - checkedState[comp];
+    this.setState({ checked: checkedState });
+  }
+
+  switchCourse() {
+    var searchVal = $("#search").val().trim().toUpperCase();
+    if (this.props.all_codes.indexOf(searchVal) >= 0) {
+      window.location.pathname = "/course/" + this.props.dept + "/" + searchVal;
+    }
+    return;
+  }
+
+  submitForm(e) {
+    e.preventDefault();
+    $("#search").blur();
   }
 
   render() {
@@ -105,25 +148,39 @@ class SpecificCourse extends React.Component {
         </div>
         <div className="row">
           <div className="col m5 l4 hide-on-small-only">
-            <div className="card white">
+            <div className="card white fixed">
               <div className="card-content">
                 <span className="card-title">Filters</span>
-                <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
+                <div className="container">
+                    {["LEC", "DIS", "LAB", "SEM", "IND", "GRP", "OTH"].map((comp, i) => {
+                      return (
+                        <div key={i} className="row">
+                          <div className="switch col s12">
+                            <label>
+                              {comp}
+                              <input checked={this.state.checked[comp]} onChange={() => this.onFilterChange(comp)} type="checkbox" />
+                              <span className="lever"></span>
+                            </label>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
               <div className="card-action">
                 <h6>Switch {this.props.dept} Course</h6> 
                 <nav id="class-search" className="">
                   <div className="nav-wrapper">
-                    <form>
+                    <form onSubmit={this.submitForm}>
                       <div className="input-field">
-                        <input placeholder="Search" id="search" type="search" autoComplete="off" required maxLength="8"/>
+                        <input placeholder="Search" className="autocomplete" id="search" type="search" autoComplete="off" required maxLength="8"/>
                         <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
                         <i className="material-icons">close</i>
                       </div>
                     </form>
                   </div>
                 </nav>
+                <a onClick={this.switchCourse} className="margin-top-10 waves-effect waves-light btn">Go</a>
               </div>
             </div>
           </div>
