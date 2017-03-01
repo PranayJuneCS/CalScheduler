@@ -303,3 +303,13 @@ h6 {
 .fixed {
   position: fixed !important;
 }
+
+.close-modal-x {
+  position: absolute;
+  top: 2%;
+  left: 88%;
+}
+
+.dropdown-content li {
+  text-align: center !important;
+}

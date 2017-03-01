@@ -42,6 +42,7 @@ class SpecificCourse extends React.Component {
     this.onFilterChange = this.onFilterChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.switchCourse = this.switchCourse.bind(this);
+    this.clearField = this.clearField.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +56,8 @@ class SpecificCourse extends React.Component {
       data: this.codesDir,
       limit: 5
     });
+
+    $('.modal').modal();
 
     this.loadCourses();
   }
@@ -127,7 +130,8 @@ class SpecificCourse extends React.Component {
     this.setState({ checked: checkedState });
   }
 
-  switchCourse() {
+  switchCourse(e) {
+    e.preventDefault();
     var searchVal = $("#search").val().trim().toUpperCase();
     if (this.props.all_codes.indexOf(searchVal) >= 0) {
       window.location.pathname = "/course/" + this.props.dept + "/" + searchVal;
@@ -140,11 +144,53 @@ class SpecificCourse extends React.Component {
     $("#search").blur();
   }
 
+  clearField() {
+    $('#search').val('');
+  }
+
   render() {
     return (
       <div className="content container">
         <div className="header-container">
           <h4 style={{flex: 1}}>{this.props.dept} {this.props.code}</h4>
+        </div>
+        <div className="fixed-action-btn hide-on-med-and-up">
+          <a href="#filters-modal" className="btn-floating btn-large teal darken-4">
+            <i className="fa fa-bars"></i>
+          </a>
+        </div>
+        <div id="filters-modal" className="modal">
+          <div className="modal-content">
+            <h5>Filters</h5>
+            <i className="modal-action modal-close fa fa-close fa-2x close-modal-x"></i>
+            <div className="container">
+              {["LEC", "DIS", "LAB", "SEM", "IND", "GRP", "OTH"].map((comp, i) => {
+                return (
+                  <div key={i} className="row">
+                    <div className="switch col s12">
+                      <label>
+                        {comp}
+                        <input checked={this.state.checked[comp]} onChange={() => this.onFilterChange(comp)} type="checkbox" />
+                        <span className="lever"></span>
+                      </label>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <h6>Switch {this.props.dept} Course</h6>
+            <nav id="class-search" className="">
+              <div className="nav-wrapper">
+                <form onSubmit={this.switchCourse}>
+                  <div className="input-field">
+                    <input placeholder="Search" className="autocomplete" id="search" type="search" autoComplete="off" required maxLength="8"/>
+                    <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
+                    <i onClick={this.switchCourse} className="material-icons">send</i>
+                  </div>
+                </form>
+              </div>
+            </nav>
+          </div>
         </div>
         <div className="row">
           <div className="col m5 l4 hide-on-small-only">
@@ -175,7 +221,7 @@ class SpecificCourse extends React.Component {
                       <div className="input-field">
                         <input placeholder="Search" className="autocomplete" id="search" type="search" autoComplete="off" required maxLength="8"/>
                         <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
-                        <i className="material-icons">close</i>
+                        <i onClick={this.clearField} className="material-icons">close</i>
                       </div>
                     </form>
                   </div>
