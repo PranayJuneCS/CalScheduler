@@ -13,6 +13,10 @@ nav {
   text-align: center;
 }
 
+.text-left {
+  text-align: left !important;
+}
+
 .send-button {
   margin-top: 10px;
 }
@@ -279,4 +283,15 @@ h6 {
 
 .code-container:hover {
   transform: scale(1.05);
+}
+
+.course-row {
+  margin-bottom: 5px !important;
+  padding-bottom: 10px !important;
+  padding-top: 15px;
+}
+
+
+.add-course-plus {
+  cursor: pointer;
 }

@@ -70,13 +70,13 @@ class HomeController < ApplicationController
       end
       render json: {code: "200",
                     sections: {
-                      lecs: lecs,
-                      discs: discs,
-                      labs: labs,
-                      sems: sems,
-                      inds: inds,
-                      grps: grps,
-                      others: others
+                      LEC: lecs,
+                      DIS: discs,
+                      LAB: labs,
+                      SEM: sems,
+                      IND: inds,
+                      GRP: grps,
+                      OTH: others
                     }
                    }
     end
@@ -88,7 +88,11 @@ class HomeController < ApplicationController
       code = dept[0].codes.where(code: params[:code])
       if code.any?
         all_codes = dept[0].codes.map { |code_obj| code_obj["code"] }
-        render component: 'SpecificCourse', props: { dept: params[:dept], code: params[:code], all_codes: all_codes } and return
+        render component: 'SpecificCourse', props: { dept: params[:dept],
+                                                     code: params[:code],
+                                                     all_codes: all_codes,
+                                                     ccns: @current_user.current_ccns
+                                                   } and return
       end
     end
     render json: {message: "Invalid Course!"}

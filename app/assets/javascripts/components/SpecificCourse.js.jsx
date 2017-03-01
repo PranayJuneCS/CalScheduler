@@ -5,13 +5,25 @@ class SpecificCourse extends React.Component {
     
     this.state = {
       loadingCourses: true,
-      courses: false
+      courses: false,
+      ccns: this.props.ccns
 
+    };
+
+    this.translateDict = {
+      LEC: "Lectures",
+      DIS: "Discussions",
+      LAB: "Labs",
+      IND: "Independent Study",
+      SEM: "Seminars",
+      GRP: "Group Study",
+      OTH: "Other"
     };
 
     this.loadingCourses = this.loadingCourses.bind(this);
     this.loadCourses = this.loadCourses.bind(this);
     this.displayCourses = this.displayCourses.bind(this);
+    this.updateCCNs = this.updateCCNs.bind(this);
   }
 
   componentDidMount() {
@@ -41,14 +53,17 @@ class SpecificCourse extends React.Component {
   loadCourses() {
     $.get('/all_courses', { dept: this.props.dept, code: this.props.code })
     .done((data) => {
-      this.setState({ loadingCourses: false });
       if (data.code != "200") {
+        this.setState({ loadingCourses: false });
         console.log("SHIZ");
       } else {
-        this.setState({
-          ...data.sections,
-          courses: true
-        });
+        setTimeout(() => {
+          this.setState({
+            ...data.sections,
+            courses: true,
+            loadingCourses: false
+          });
+        }, 500);
       }
     })
     .fail((e) => {
@@ -57,8 +72,29 @@ class SpecificCourse extends React.Component {
     })
   }
 
+  updateCCNs(ccn) {
+    var currCCNs = this.state.ccns;
+    currCCNs.push(ccn);
+    this.setState({ ccns: currCCNs });
+  }
+
   displayCourses() {
-    
+    return (
+      <div>
+        {["LEC", "DIS", "LAB", "SEM", "IND", "GRP", "OTH"].map((component, i) => {
+          return (
+            <CourseComponent
+              comp={component}
+              component={this.translateDict[component]}
+              key={i}
+              courses={this.state[component]}
+              ccns={this.state.ccns}
+              updateCCNs={this.updateCCNs}
+            />
+          );
+        })}
+      </div>
+    );
   }
 
   render() {
