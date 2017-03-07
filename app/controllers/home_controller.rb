@@ -7,14 +7,6 @@ class HomeController < ApplicationController
                                        courses: @current_courses }
   end
 
-  def add
-    render component: 'Select', props: { courses: @current_courses }
-  end
-
-  def search
-    render component: 'Search', props: { departments: @departments }
-  end
-
   def choose
     render component: 'Choose'
   end
