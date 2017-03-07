@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
   get 'my_schedule', to: "home#my_schedule"
 
+  get '*unmatched_route', to: 'application#not_found'
+
   resources :sessions, only: [:create, :destroy]
   resource :home, only: [:show]
 
