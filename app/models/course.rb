@@ -15,7 +15,7 @@ class Course < ApplicationRecord
       e.location = self.location
       e.recurrence = {
             freq: 'weekly',
-            until: Time.new(2017, 4, 28, 23, 59, 59, "-08:00"),
+            until: Time.new(2017, 4, 28, 23, 59, 59),
             byday: byday}
     end
 
@@ -52,17 +52,14 @@ class Course < ApplicationRecord
     next_date = self.day.scan(/../).map { |day| date_of_next(day) }.min
     my_start_time = self.start_time.split(':')
     my_end_time = self.end_time.split(':')
-    start_range = Time.new(next_date.year, next_date.month, next_date.day, my_start_time[0].to_i, my_start_time[1].to_i, 0, "-08:00")
-    end_range = Time.new(next_date.year, next_date.month, next_date.day, my_end_time[0].to_i, my_end_time[1].to_i, 0, "-08:00")
+    start_range = Time.new(next_date.year, next_date.month, next_date.day, my_start_time[0].to_i, my_start_time[1].to_i, 0)
+    end_range = Time.new(next_date.year, next_date.month, next_date.day, my_end_time[0].to_i, my_end_time[1].to_i, 0)
     [start_range, end_range]
   end
 
   def parse_day
     day_arr = self.day.scan(/../).map { |day| day.downcase }
     day_arr.join(',')
-  end
-
-  def current_ccns
   end
 
 end
