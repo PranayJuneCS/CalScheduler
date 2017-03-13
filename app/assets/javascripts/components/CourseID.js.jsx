@@ -26,6 +26,8 @@ class CourseID extends React.Component {
     this.handleDeptSearch = this.handleDeptSearch.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.createDeptEntry = this.createDeptEntry.bind(this);
+    this.blurred = this.blurred.bind(this);
+    this.focused = this.focused.bind(this);
   }
 
   componentDidMount() {
@@ -82,6 +84,14 @@ class CourseID extends React.Component {
     $('#search').blur();
   }
 
+  blurred(e) {
+    $(".alt-ccn-search").removeClass('hide');
+  }
+
+  focused(e) {
+    $(".alt-ccn-search").addClass('hide');
+  }
+
   render() {
     return (
       <div className="container content">
@@ -98,7 +108,7 @@ class CourseID extends React.Component {
           <div className="nav-wrapper">
             <form onSubmit={this.submitForm}>
               <div className="input-field">
-                <input placeholder="Search for a Department" id="search" type="search" onChange={this.handleDeptSearch} autoComplete="off" required />
+                <input onBlur={this.blurred} onFocus={this.focused} placeholder="Search for a Department" id="search" type="search" onChange={this.handleDeptSearch} autoComplete="off" required />
                 <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
                 <i onClick={this.clearField} className="material-icons">close</i>
               </div>
