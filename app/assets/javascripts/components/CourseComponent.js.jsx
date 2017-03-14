@@ -25,7 +25,7 @@ class CourseComponent extends React.Component {
     var endTime = "00:00:00";
     var meetsDays = "TBD";
     var location = "TBD";
-    var instructor = "TBD"; 
+    var instructor = "No Specified Instructor";
     if (course.meetings) {
       var meeting = course.meetings[0];
       startTime = meeting.startTime;

@@ -89,7 +89,8 @@ class SpecificCourse extends React.Component {
           this.setState({
             ...data.sections,
             courses: true,
-            loadingCourses: false
+            loadingCourses: false,
+            title: ": " + data.title
           });
         }, 500);
       }
@@ -164,7 +165,7 @@ class SpecificCourse extends React.Component {
     return (
       <div className="content container">
         <div className="header-container">
-          <h4 style={{flex: 1}}>{this.props.dept} {this.props.code}</h4>
+          <h4 style={{flex: 1}}>{this.props.dept} {this.props.code} {this.state.title}</h4>
         </div>
         <div className="fixed-action-btn hide-on-med-and-up">
           <a href="#filters-modal" className="btn-floating btn-large teal darken-4">

@@ -73,7 +73,8 @@ class HomeController < ApplicationController
                       IND: inds,
                       GRP: grps,
                       OTH: others
-                    }
+                    },
+                    title: sections[0]["class"]["course"]["title"]
                    }
     end
   end

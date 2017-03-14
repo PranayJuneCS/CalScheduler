@@ -154,13 +154,13 @@ class CCN extends React.Component {
     this.setState({ addingClass: true });
     var classDict = {
       title: this.state.course.title,
-      day: this.state.course.meetsDays,
+      day: this.state.course.meetsDays || "TBD",
       ccn: this.state.course.ccn,
       component: this.state.course.component,
       start_time: this.state.course.startTime,
       end_time: this.state.course.endTime,
-      location: this.state.course.location,
-      instructor: this.state.course.instructor,
+      location: this.state.course.location || "TBD",
+      instructor: this.state.course.instructor || "No Specified Instructor",
       dept: this.state.course.subject_area,
       code: this.state.course.catalog_number,
       number: this.state.course.number
