@@ -48,6 +48,7 @@ GEM
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
+    bcrypt (3.1.11)
     builder (3.2.3)
     byebug (9.0.6)
     chronic (0.10.2)
@@ -232,6 +233,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   byebug
   chronic
   coffee-rails (~> 4.2)

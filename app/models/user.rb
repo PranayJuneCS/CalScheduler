@@ -31,7 +31,8 @@ class User < ApplicationRecord
 
   def generate_client_token(oauth_token)
     concat = oauth_token + ENV['secret_token']
-    (Digest::SHA256.digest concat).force_encoding('UTF-8')
+    password = BCrypt::Password.create(concat)
+    password
   end
 
   def validate_request(token)
@@ -39,6 +40,7 @@ class User < ApplicationRecord
       return false
     end
     concat = token + ENV['secret_token']
-    self.client_token == (Digest::SHA256.digest concat).force_encoding('UTF-8')
+    password = BCrypt::Password.new(self.client_token)
+    password == concat
   end
 end
