@@ -24,7 +24,7 @@ class HomeController < ApplicationController
   end
 
   def all_courses
-    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{params[:dept]}&catalog-number=#{params[:code]}&include-secondary=true&status-code=A")
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2178&subject-area-code=#{params[:dept]}&catalog-number=#{params[:code]}&include-secondary=true&status-code=A")
     req = Net::HTTP::Get.new(uri)
 
     req["Accept"] = 'application/json'
@@ -106,7 +106,7 @@ class HomeController < ApplicationController
   end
 
   def ccn_search
-    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections/#{params[:ccn]}?term-id=2172")
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections/#{params[:ccn]}?term-id=2178")
     req = Net::HTTP::Get.new(uri)
 
     req["Accept"] = 'application/json'
@@ -152,7 +152,7 @@ class HomeController < ApplicationController
   end
 
   def classes_from_dept
-    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{params[:short]}&include-secondary=false&status-code=A&page-number=1&page-size=200&component-code=LEC")
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2178&subject-area-code=#{params[:short]}&include-secondary=false&status-code=A&page-number=1&page-size=200&component-code=LEC")
     req = Net::HTTP::Get.new(uri)
 
     req["Accept"] = 'application/json'
@@ -164,7 +164,7 @@ class HomeController < ApplicationController
     }
     resp_body = JSON.parse(response.body)["apiResponse"]
     if resp_body["httpStatus"]["code"] == "404"
-      uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{params[:short]}&include-secondary=false&status-code=A&page-number=1&page-size=200")
+      uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2178&subject-area-code=#{params[:short]}&include-secondary=false&status-code=A&page-number=1&page-size=200")
       req = Net::HTTP::Get.new(uri)
 
       req["Accept"] = 'application/json'

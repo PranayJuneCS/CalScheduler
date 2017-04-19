@@ -56,3 +56,4 @@ gem "omniauth-google-oauth2", "~> 0.2.1"
 gem 'figaro'
 gem 'google_calendar'
 gem 'unirest'
+gem 'chronic'

@@ -22,7 +22,7 @@ end
 Department.all.each do |dept|
   course_set = Set.new
   (1..2).each do |page_num|
-    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2172&subject-area-code=#{dept.short}&include-secondary=false&page-number=#{page_num}&page-size=400")
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2178&subject-area-code=#{dept.short}&include-secondary=false&page-number=#{page_num}&page-size=400")
     req = Net::HTTP::Get.new(uri)
 
     req["Accept"] = 'application/json'

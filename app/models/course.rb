@@ -15,7 +15,7 @@ class Course < ApplicationRecord
       e.location = self.location
       e.recurrence = {
             freq: 'weekly',
-            until: Time.new(2017, 4, 28, 23, 59, 59),
+            until: Time.new(2017, 12, 1, 23, 59, 59),
             byday: byday}
     end
 
@@ -39,9 +39,8 @@ class Course < ApplicationRecord
     else
       'monday'
     end
-    date  = Date.parse(real_day)
-    delta = date >= Date.today ? 0 : 7
-    date + delta
+    semester_start_day = Date.new(2017, 8, 22)
+    Chronic.parse("next #{real_day}", now: semester_start_day)
   end
 
   def parse_title
