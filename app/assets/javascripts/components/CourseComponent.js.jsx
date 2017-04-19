@@ -54,7 +54,8 @@ class CourseComponent extends React.Component {
       start_time: startTime,
       end_time: endTime,
       instructor: instructor,
-      location: location
+      location: location,
+      token: this.props.current_user.token
     };
     $.post("/add_class", classDict)
       .done( (data) => {

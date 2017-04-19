@@ -55,6 +55,7 @@ class CourseID extends React.Component {
       <DepartmentEntry
         key={i}
         {...course}
+        current_user={this.props.current_user}
       />
     );
   }

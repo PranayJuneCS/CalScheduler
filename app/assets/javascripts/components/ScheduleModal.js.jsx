@@ -23,7 +23,7 @@ class ScheduleModal extends React.Component {
   }
 
   loadSchedule() {
-    $.get('/my_schedule')
+    $.get('/my_schedule', {token: this.props.current_user.token})
     .done((data) => {
       this.setState({ courses: data.courses });
     })

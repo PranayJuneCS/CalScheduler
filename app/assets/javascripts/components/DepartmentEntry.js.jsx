@@ -35,7 +35,7 @@ class DepartmentEntry extends React.Component {
 
   onPress() {
     if (!this.state.codes) {
-      $.get('/codes_from_dept', {short: this.props.short})
+      $.get('/codes_from_dept', {short: this.props.short, token: this.props.current_user.token})
       .done((data) => {
         if (data.code == "200") {
           this.setState({ codes: data.codes });

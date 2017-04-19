@@ -3,20 +3,44 @@ require 'net/http'
 class HomeController < ApplicationController
 
   def show
-    render component: 'Home', props: { current_user: @current_user,
+    user = nil
+    if !@current_user.nil?
+      user = @current_user.client_friendly_version
+    end
+    render component: 'Home', props: { current_user: user,
                                        courses: @current_courses }
   end
 
   def choose
-    render component: 'Choose'
+    render component: 'Choose', props: { current_user: @current_user.client_friendly_version }
   end
 
   def ccn
-    render component: 'CCN', props: { ccns: @current_user.current_ccns }
+    render component: 'CCN', props: { current_user: @current_user.client_friendly_version,
+                                      ccns: @current_user.current_ccns }
   end
 
   def course
-    render component: 'CourseID', props: { departments: @departments, ccns: @current_user.current_ccns }
+    render component: 'CourseID', props: { departments: @departments,
+                                           current_user: @current_user.client_friendly_version,
+                                           ccns: @current_user.current_ccns }
+  end
+
+  def specific_course
+    dept = Department.where(short: params[:dept].upcase)
+    if dept.any?
+      code = dept[0].codes.where(code: params[:code].upcase)
+      if code.any?
+        all_codes = dept[0].codes.map { |code_obj| code_obj["code"] }
+        render component: 'SpecificCourse', props: { dept: params[:dept].upcase,
+                                                     code: params[:code].upcase,
+                                                     all_codes: all_codes,
+                                                     current_user: @current_user.client_friendly_version,
+                                                     ccns: @current_user.current_ccns
+                                                   } and return
+      end
+    end
+    render json: {message: "Invalid Course!"}
   end
 
   def my_schedule
@@ -24,6 +48,9 @@ class HomeController < ApplicationController
   end
 
   def all_courses
+    if not @current_user.validate_request(params[:token])
+      render json: {code: "404", message: "Invalid Request."} and return
+    end
     uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2178&subject-area-code=#{params[:dept]}&catalog-number=#{params[:code]}&include-secondary=true&status-code=A")
     req = Net::HTTP::Get.new(uri)
 
@@ -79,23 +106,10 @@ class HomeController < ApplicationController
     end
   end
 
-  def specific_course
-    dept = Department.where(short: params[:dept])
-    if dept.any?
-      code = dept[0].codes.where(code: params[:code])
-      if code.any?
-        all_codes = dept[0].codes.map { |code_obj| code_obj["code"] }
-        render component: 'SpecificCourse', props: { dept: params[:dept],
-                                                     code: params[:code],
-                                                     all_codes: all_codes,
-                                                     ccns: @current_user.current_ccns
-                                                   } and return
-      end
-    end
-    render json: {message: "Invalid Course!"}
-  end
-
   def codes_from_dept
+    if not @current_user.validate_request(params[:token])
+      render json: {code: "404", message: "Invalid Request."} and return
+    end
     department = Department.where(short: params[:short])
     unless (department.any? or department.length == 1)
       render json: {code: "404", message: "Invalid Department."}
@@ -106,6 +120,9 @@ class HomeController < ApplicationController
   end
 
   def ccn_search
+    if not @current_user.validate_request(params[:token])
+      render json: {code: "404", message: "Invalid Request."} and return
+    end
     uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections/#{params[:ccn]}?term-id=2178")
     req = Net::HTTP::Get.new(uri)
 
@@ -151,36 +168,10 @@ class HomeController < ApplicationController
     end
   end
 
-  def classes_from_dept
-    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2178&subject-area-code=#{params[:short]}&include-secondary=false&status-code=A&page-number=1&page-size=200&component-code=LEC")
-    req = Net::HTTP::Get.new(uri)
-
-    req["Accept"] = 'application/json'
-    req["app_id"] = ENV['calnet_app_id']
-    req["app_key"] = ENV['calnet_app_secret']
-
-    response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') {|http|
-      http.request(req)
-    }
-    resp_body = JSON.parse(response.body)["apiResponse"]
-    if resp_body["httpStatus"]["code"] == "404"
-      uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2178&subject-area-code=#{params[:short]}&include-secondary=false&status-code=A&page-number=1&page-size=200")
-      req = Net::HTTP::Get.new(uri)
-
-      req["Accept"] = 'application/json'
-      req["app_id"] = ENV['calnet_app_id']
-      req["app_key"] = ENV['calnet_app_secret']
-
-      response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') {|http|
-        http.request(req)
-      }
-      resp_body = JSON.parse(response.body)["apiResponse"]      
-    end
-    lectureSections = resp_body["response"]["classSections"]
-    render json: {classes: lectureSections}
-  end
-
   def add_class
+    if not @current_user.validate_request(params[:token])
+      render json: {code: "404", message: "Invalid Request."} and return
+    end
     new_course = Course.new(title: params[:title],
                             day: params[:day],
                             ccn: params[:ccn],
@@ -203,6 +194,9 @@ class HomeController < ApplicationController
   end
 
   def sync_classes
+    if not @current_user.validate_request(params[:token])
+      render json: {code: "404", message: "Invalid Request."} and return
+    end
     cal = Google::Calendar.new(:client_id => ENV["google_app_id"],
                          :client_secret => ENV["google_app_secret"],
                          :calendar      => @current_user.email,
@@ -219,6 +213,9 @@ class HomeController < ApplicationController
   end
 
   def delete_class
+    if not @current_user.validate_request(params[:token])
+      render json: {code: "404", message: "Invalid Request."} and return
+    end
     cal = Google::Calendar.new(:client_id => ENV["google_app_id"],
                          :client_secret => ENV["google_app_secret"],
                          :calendar      => @current_user.email,

@@ -45,7 +45,9 @@ class ClassOverview extends React.Component {
 
   syncClass(e) {
     this.setState({ syncingClasses: true });
-    var classDict = {};
+    var classDict = {
+      token: this.props.user.token
+    };
     $.post("/sync_classes", classDict)
       .done( (data) => {
         Materialize.toast('Your schedule has been synced with Google Calendar!', 2000, '', () => {
@@ -63,6 +65,7 @@ class ClassOverview extends React.Component {
         key={i}
         refreshStatus={this.refreshStatus}
         {...course}
+        current_user={this.props.user}
       />
     );
   }

@@ -31,7 +31,8 @@ class ClassInfo extends React.Component {
   unsyncClass(e) {
     this.setState({ removingClass: true });
     var classDict = {
-      ccn: this.state.ccn
+      ccn: this.state.ccn,
+      token: this.props.current_user.token
     };
     $.post("/delete_class", classDict)
       .done( (data) => {

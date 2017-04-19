@@ -42,7 +42,7 @@ class CCN extends React.Component {
       this.setState({ inputError: true, searching: false, searchError: null, course: null });
     } else {
       this.setState({ inputError: false, searching: true, searchError: null, course: null });
-      $.get('/ccn_search', {ccn: ccnNum.toString()})
+      $.get('/ccn_search', {ccn: ccnNum.toString(), token: this.props.current_user.token})
       .done( (data) => {
         setTimeout(() => {
           if (data.code != "200") {
@@ -163,7 +163,8 @@ class CCN extends React.Component {
       instructor: this.state.course.instructor || "No Specified Instructor",
       dept: this.state.course.subject_area,
       code: this.state.course.catalog_number,
-      number: this.state.course.number
+      number: this.state.course.number,
+      token: this.props.current_user.token
     };
     $.post("/add_class", classDict)
       .done( (data) => {

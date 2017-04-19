@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419193835) do
+ActiveRecord::Schema.define(version: 20170419213819) do
 
   create_table "codes", force: :cascade do |t|
     t.datetime "created_at",    null: false
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20170419193835) do
     t.datetime "updated_at",       null: false
     t.string   "email"
     t.string   "image"
+    t.string   "client_token"
   end
 
 end

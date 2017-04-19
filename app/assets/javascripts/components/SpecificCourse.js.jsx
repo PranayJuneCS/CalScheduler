@@ -79,7 +79,10 @@ class SpecificCourse extends React.Component {
   }
 
   loadCourses() {
-    $.get('/all_courses', { dept: this.props.dept, code: this.props.code })
+    $.get('/all_courses', { dept: this.props.dept,
+                            code: this.props.code,
+                            token: this.props.current_user.token
+                          })
     .done((data) => {
       if (data.code != "200") {
         this.setState({ loadingCourses: false });
@@ -119,6 +122,7 @@ class SpecificCourse extends React.Component {
               courses={this.state[component]}
               ccns={this.state.ccns}
               updateCCNs={this.updateCCNs}
+              current_user={this.props.current_user}
               visible={this.state.checked[component]}
             />
           );
