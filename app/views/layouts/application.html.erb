@@ -33,6 +33,14 @@
                   <div><p class="my-email truncate"><%= @current_user.email %></p></div>
                 </div>
               </div>
+              <div class="content">
+              <% if @current_user.cal_id %>
+                <span>SID: <%= @current_user.cal_id %></span>
+                <a href="/sid">Change</a>
+              <% else %>
+                <span>No SID! <a href="/sid" class="enter-sid">Enter One?</a></span>
+              <% end %>
+              </div>
             </div>
             <div class="sign-out-container card-action content">
               <a href="/signout" class="signout-link z-depth-2">

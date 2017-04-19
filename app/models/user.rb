@@ -2,7 +2,6 @@ class User < ApplicationRecord
   has_many :courses
   
   def self.from_omniauth(auth)
-    puts auth.credentials.inspect
     where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
       user.provider = auth.provider
       user.uid = auth.uid

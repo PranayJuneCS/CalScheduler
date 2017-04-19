@@ -3,8 +3,19 @@ require 'net/http'
 class HomeController < ApplicationController
 
   def show
+    unless @current_user.nil?
+      if @current_user.first_time
+        @current_user.first_time = false
+        @current_user.save
+        redirect_to '/sid' and return
+      end
+    end
     render component: 'Home', props: { current_user: @current_user,
                                        courses: @current_courses }
+  end
+
+  def sid
+    render component: 'CalID', props: { current_user: @current_user }
   end
 
   def choose
@@ -102,6 +113,17 @@ class HomeController < ApplicationController
     else
       code_arr = department[0].codes.map { |code_obj| code_obj["code"] }
       render json: {code: "200", codes: code_arr}
+    end
+  end
+
+  def add_sid
+    sid = params[:sid]
+    if sid.to_i != 0 && sid.to_i.to_s == sid && sid.size > 7
+      @current_user.cal_id = sid
+      @current_user.save
+      render json: {cal_id: sid}
+    else
+      render json: {message: "Invalid SID"}
     end
   end
 

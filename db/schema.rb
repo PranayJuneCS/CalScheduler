@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227222015) do
+ActiveRecord::Schema.define(version: 20170320015241) do
 
   create_table "codes", force: :cascade do |t|
     t.datetime "created_at",    null: false
@@ -62,10 +62,12 @@ ActiveRecord::Schema.define(version: 20170227222015) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "email"
     t.string   "image"
+    t.string   "cal_id"
+    t.boolean  "first_time",       default: true
   end
 
 end

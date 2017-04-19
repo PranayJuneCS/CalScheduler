@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   get 'ccn', to: "home#ccn"
   get 'ccn_search', to: "home#ccn_search"
 
+  get 'sid', to: "home#sid"
+  post 'add_sid', to: "home#add_sid"
+
   get 'course', to: "home#course"
   get 'codes_from_dept', to: "home#codes_from_dept"
   get 'course/*dept/*code', to: "home#specific_course", :constraints => { :code => /[^\/]+/ }
