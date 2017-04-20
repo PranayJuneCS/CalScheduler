@@ -205,7 +205,8 @@ class SpecificCourse extends React.Component {
     return (
       <div className="content container">
         <div className="header-container">
-          <h4 style={{flex: 1}}>{this.props.dept} {this.props.code} {this.state.title}</h4>
+          <a href="/course" className=""><i className="material-icons back-course">chevron_left</i></a>
+          <h4 className="small-header" style={{flex: 1}}>{this.props.dept} {this.props.code} {this.state.title}</h4>
         </div>
         <div id="filters-modal" className="modal">
           <div className="card zero-margin">
@@ -230,34 +231,16 @@ class SpecificCourse extends React.Component {
           <div className="col s12 m7 l8">
             <div className="card spec-course-card">
               <div className="card-content white-text">
-                <span className="card-title">All <b>{this.props.dept} {this.props.code}</b> Courses</span>
                 {this.state.loadingCourses && this.loadingCourses()}
                 {this.state.courses && this.displayCourses()}
               </div>
             </div>
           </div>
         </div>
-        <div className="fixed-action-btn hide-on-down-only">
-          <a className="btn btn-floating btn-large">
-            <i className="fa fa-bars"></i>
+        <div className="fixed-action-btn hide-on-med-and-up">
+          <a href="#filters-modal" className="btn-floating btn btn-large">
+            <i className="fa fa-sliders"></i>
           </a>
-          <ul>
-            <li className="hide-on-med-and-up">
-              <a href="#filters-modal" className="btn-floating black">
-                <i className="fa fa-sliders"></i>
-              </a>
-            </li>
-            <li>
-              <a href='/ccn' data-position="left" data-delay="10" data-tooltip="Search by CCN" className="btn-floating deep-purple tooltipped">
-                <i className="fa fa-id-badge"></i>
-              </a>
-            </li>
-            <li>
-              <a href='/' data-position="left" data-delay="10" data-tooltip="Home" className="btn-floating red tooltipped">
-                <i className="material-icons">home</i>
-              </a>
-            </li>
-          </ul>
         </div>
       </div>
     );

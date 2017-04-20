@@ -13,6 +13,16 @@ nav {
   background-color: #1976d2 !important;
 }
 
+.small-header {
+  font-size: 1.8rem;
+}
+
+.back-course {
+  font-size: 40px;
+  color: black;
+  margin-top: 8px
+}
+
 .search-container {
   display: flex;
   align-items: center;
@@ -359,7 +369,6 @@ h6 {
 }
 
 .ccn-more-container {
-  border-top: #d3d3d3 1px solid;
   padding: 4px;
 }
 

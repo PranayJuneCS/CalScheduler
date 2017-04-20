@@ -237,7 +237,7 @@ class CCN extends React.Component {
                   <p>{course.instructor}</p>
                 </div>
               </div>
-              <div id="ccn-action" className="row no-margin-bottom">
+              <div id="" className="row no-margin-bottom">
                 <div className="col s12 hide-on-med-and-up">
                   <h6>{course.title}</h6>
                 </div>
@@ -254,9 +254,6 @@ class CCN extends React.Component {
                   <p className="one-line-height">{timeString}</p>
                 </div>
                 {this.scheduleStatus()}
-              </div>
-              <div onClick={this.toggleCCNInfo} className="ccn-more-container">
-                <i className={"fa fa-chevron-" + this.state.ccnState + " fa-lg"}></i>
               </div>
             </div>
           </div>
