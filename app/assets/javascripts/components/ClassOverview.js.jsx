@@ -25,6 +25,11 @@ class ClassOverview extends React.Component {
     });
     $(".calendar-icon").addClass("hide");
     $('.tooltipped').tooltip({delay: 1000});
+    $("#my-schedule").modal();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    $("#my-schedule").modal();
   }
 
   componentWillUnmount() {
@@ -32,8 +37,7 @@ class ClassOverview extends React.Component {
   }
 
   refreshStatus(data) {
-    this.setState({ courses: data });
-    $("#cal-iframe").attr("src", $("#cal-iframe").attr("src"));
+    window.location.href += ''
   }
 
   loadingSync(icon) {
@@ -70,7 +74,7 @@ class ClassOverview extends React.Component {
       .done( (data) => {
         Materialize.toast('Your schedule has been synced with Google Calendar!', 2000, '', () => {
           this.setState({ syncingClasses: false, courses: data });
-          $("#cal-iframe").attr("src", $("#cal-iframe").attr("src"));
+          window.location.href += ''
         });
       }).fail( function(e) {
         console.log("Failed syncing with Google Calendar.");

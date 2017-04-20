@@ -25,6 +25,7 @@ class ClassInfo extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps) {
       this.setState(nextProps);
+      $("#my-schedule").modal();
     }
   }
 

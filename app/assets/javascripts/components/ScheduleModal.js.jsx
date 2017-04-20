@@ -3,11 +3,23 @@ class ScheduleModal extends React.Component {
     super(props);
 
     this.state = {
-      courses: this.props.courses
+      courses: this.props.courses,
+      syncingClasses: false
     };
 
     this.loadSchedule = this.loadSchedule.bind(this);
     this.showSchedule = this.showSchedule.bind(this);
+    this.syncClass = this.syncClass.bind(this);
+    this.loadingSync = this.loadingSync.bind(this);
+  }
+
+  componentWillMount() {
+    $("#my-schedule").modal({
+      ready: ((modal, trigger) => {
+        console.log("OPEN");
+        this.loadSchedule();
+      })
+    });
   }
 
   componentDidMount() {
@@ -30,6 +42,30 @@ class ScheduleModal extends React.Component {
     .fail((e) => {
       console.log("SHIZ");
     })
+  }
+
+  syncClass(e) {
+    this.setState({ syncingClasses: true });
+    var classDict = {
+      token: this.props.current_user.token
+    };
+    $.post("/sync_classes", classDict)
+      .done( (data) => {
+        Materialize.toast('Your schedule has been synced with Google Calendar!', 2000, '', () => {
+          this.setState({ syncingClasses: false });
+          this.loadSchedule();
+        });
+      }).fail( function(e) {
+        console.log("Failed syncing with Google Calendar.");
+      });
+  }
+
+  loadingSync(icon) {
+    var refreshClasses = "fa " + icon;
+    if (this.state.syncingClasses) {
+      refreshClasses += " fa-spin";
+    }
+    return refreshClasses;
   }
 
   showSchedule(course, i) {
@@ -72,7 +108,7 @@ class ScheduleModal extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="my-schedule" className="modal">
         <div className="modal-content black-text content">
           <h4>My Schedule</h4>
           <table className="bordered highlight centered">
@@ -80,12 +116,7 @@ class ScheduleModal extends React.Component {
               <tr>
                 <th>Course</th>
                 <th>Time</th>
-                <th>
-                  <span className="fa-stack fa-lg">
-                    <i className="fa fa-calendar-o fa-stack-2x"></i>
-                    <i className="fa fa-google fa-stack-1x margin-top-6"></i>
-                  </span>
-                </th>
+                <th>Synced with Google</th>
               </tr>
             </thead>
             <tbody>
@@ -94,7 +125,13 @@ class ScheduleModal extends React.Component {
           </table>
         </div>
         <div className="modal-footer">
-          <a className="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+          <a className="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+          {window.location.pathname != "/" &&
+            <a onClick={this.syncClass} className="waves-effect waves-green btn-flat">
+              <i className={this.loadingSync("fa-refresh left")}></i>
+              Sync With Google
+            </a>
+          }
         </div>
       </div>
     );

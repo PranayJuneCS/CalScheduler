@@ -67,9 +67,7 @@
     </nav>
   </div>
   <% unless @current_user.nil? %>
-  <div id="my-schedule" class="modal">
     <%= react_component('ScheduleModal', courses: @current_courses, current_user: @current_user.client_friendly_version) %>
-  </div>
   <% end %>
   <body>
     <%= yield %>
