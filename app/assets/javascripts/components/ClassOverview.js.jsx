@@ -103,7 +103,7 @@ class ClassOverview extends React.Component {
       <div className="row">
         <div className="col m5 l4 s12 content">
           <div className="sync-container">
-            <h4>Current Schedule</h4>
+            <h4 className="current-schedule">Current Schedule</h4>
             <a onClick={this.syncClass} className="btn btn-floating waves-effect waves-light">
               <i className={this.loadingSync("fa-refresh")}></i>
             </a>
