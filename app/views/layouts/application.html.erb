@@ -20,7 +20,7 @@
   <div class="navbar-fixed">
     <nav>
       <div class="nav-wrapper">
-        <a href="/" class="brand-logo center">Cal Scheduler</a>
+        <a href="/" class="brand-logo left">Cal Scheduler</a>
         <% unless @current_user.nil? %>
           <div id="dropdown1" class="card container dropdown-content">
             <div class="info-card card-content black-text">
@@ -35,24 +35,33 @@
               </div>
             </div>
             <div class="sign-out-container card-action content">
-              <a href="/signout" class="signout-link z-depth-2">
+              <a href="/signout" class="btn signout-button">
                 <i class="fa fa-sign-out"></i>
                 Sign Out
               </a>
             </div>
           </div>
-          <a href="#my-schedule" class="calendar-icon left info-button hide-on-med-and-up">
-            <i class="fa fa-calendar-check-o fa-2x padding-top-15"></i>
-          </a>
-          <a href="#my-schedule" class="calendar-icon left info-button hide-on-small-only">
-            <i class="fa fa-calendar-check-o fa-3x"></i>
-          </a>
-          <a class="dropdown-button info-button right hide-on-small-only" data-activates="dropdown1">
-            <i class="fa fa-info-circle fa-3x"></i>
-          </a>
-          <a class="dropdown-button info-button right hide-on-med-and-up" data-activates="dropdown1">
-            <i class="fa fa-info-circle fa-2x padding-top-15"></i>
-          </a>
+
+          <ul class="right">
+            <li class="">
+              <a href="/choose" class="hide-on-small-only"><i class="material-icons left">add</i>Add a Course</a>
+              <a href="/choose" class="hide-on-med-and-up"><i class="material-icons">add</i></a>
+            </li>
+            <li>
+              <a href="#my-schedule" class="hide-on-med-and-up">
+                <i class="material-icons left">date_range</i>
+              </a>
+              <a href="#my-schedule" class="hide-on-small-only">
+                <i class="material-icons left">date_range</i>
+                My Schedule
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-button" data-activates="dropdown1">
+                <i class="material-icons">settings</i>
+              </a>
+            </li>
+          </ul>
         <% end %>
       </div>
     </nav>

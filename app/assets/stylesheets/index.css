@@ -1,5 +1,5 @@
 body {
-  background-color: white;
+  background-color: #eceff1;
   min-height: 100%;
   margin: 0;
   padding: 0;
@@ -68,21 +68,19 @@ nav {
   overflow: hidden !important;
 }
 
-.signout-link {
-  color: white !important;
-  height: 36px;
-  padding: 10px 20px;
-  background-color: #1976d2;
-  border-radius: 2px;
-  margin-right: 0px !important;
+.signout-button {
+  margin-left: 40px !important;
+  margin-right: 40px !important;
+  margin-top:14px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  background-color: #1976d2 !important;
 }
 
-.signout-link i {
-  padding-right: 10px;
-}
-
-.signout-link:hover {
-  box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.3) !important;
+a.brand-logo.left {
+  padding-left: 10px !important;
 }
 
 #class-search {
