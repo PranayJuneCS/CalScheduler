@@ -46,50 +46,13 @@ nav {
   text-align: left !important;
 }
 
-.send-button {
-  margin-top: 10px;
-}
-
-.course-title {
-  float: left;
-  font-weight: bold;
-}
-
-.course-time {
-  float: right;
-}
-
 .collapsible-header div {
   width: 80%;
   margin: 0 auto;
 }
 
-.info-button {
-  height: 100% !important;
-  cursor: pointer;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.info-button:hover {
-  height: 100% !important;
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-.padding-top-15 {
-  padding-top: 15px;
-}
-
-.padding-top-20 {
-  padding-top: 20px;
-}
-
 .margin-top-15 {
   margin-top: 15px;
-}
-
-.margin-top-6 {
-  margin-top: 6px;
 }
 
 #dropdown1 {
@@ -117,21 +80,12 @@ a.brand-logo.left {
   background-color: #0d47a1 !important;
 }
 
-.add-specific-class {
-  color: black;
-  cursor: pointer;
-}
-
 .switch label input[type=checkbox]:checked+.lever {
   background-color: #42a5f5 !important;
 }
 
 .switch label input[type=checkbox]:checked+.lever:after {
   background-color: #1976d2 !important;
-}
-
-.add-specific-class:hover {
-  color: #1976d2;
 }
 
 .spec-course-card {
@@ -188,7 +142,6 @@ a.brand-logo.left {
 }
 
 @media screen and (max-width: 650px) {
-  .material-tooltip { display: none !important; }
   .collapsible-header div { width: 95% !important; }
   .collapsible.popout > li { margin: 0 !important; }
   .collapsible.popout > li.active { margin: 16px 0 !important; }
@@ -197,11 +150,6 @@ a.brand-logo.left {
 .header-container {
   display: flex;
   align-items: center;
-}
-
-.show-my-classes {
-  padding-top: 10px;
-  padding-bottom: 10px;
 }
 
 .current-schedule {
@@ -258,6 +206,10 @@ iframe {
     flex: 1;
     text-align: center !important;
   }
+
+  .signout-button {
+    align-items: initial !important;
+  }
 } 
 
 .class-container {
@@ -266,17 +218,6 @@ iframe {
 
 h6 {
   font-size: 1.2rem !important;
-}
-
-.sync-badge {
-  font-size: 0.9rem !important;
-  border-radius: 0px !important;
-  font-weight: normal !important;
-}
-
-.sync-button {
-  padding: 0 1rem !important;
-  margin-top: 15px !important;
 }
 
 .sync-bar {
@@ -308,49 +249,12 @@ h6 {
   cursor: pointer;
 }
 
-.loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  z-index: 1000000000;
-}
-
-.loading-info {
-  position: absolute;
-  top: 30%;
-  color: white;
-  width: 100%;
-}
-
 .sk-cube::before {
   background-color: black !important;
 }
 
 .load::before {
   background-color: #212121 !important;
-}
-
-.choice {
-  padding: 10px;
-  transition: background-color 0.5s ease, transform 0.5s ease;
-  color: black;
-}
-
-.choice:hover {
-  background-color: #1976d2;
-  color: white;
-  transform: scale(1.05)
-}
-
-.search-choice-container {
-  margin-top: 50px;
-}
-
-.or {
-  margin: 1rem 0 1rem 0;
 }
 
 .alt-search {
@@ -377,14 +281,6 @@ h6 {
 
 .no-margin-bottom {
   margin-bottom: 0px !important;
-}
-
-.ccn-more-container {
-  padding: 4px;
-}
-
-#ccn-action {
-  display: none;
 }
 
 .one-line-height {
@@ -428,10 +324,6 @@ h6 {
 
 .add-course-plus {
   cursor: pointer;
-}
-
-.margin-top-10 {
-  margin-top: 10px;
 }
 
 .fixed {
