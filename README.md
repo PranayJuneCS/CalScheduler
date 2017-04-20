@@ -1,2 +1,2 @@
-# CalScheduler
-Import Your Schedule Straight To Google Calendar
+# CalSync
+Transfer Your Berkeley Course Schedule Straight To Google Calendar
