@@ -44,6 +44,8 @@ class SpecificCourse extends React.Component {
     this.switchCourse = this.switchCourse.bind(this);
     this.clearField = this.clearField.bind(this);
     this.courseCircles = this.courseCircles.bind(this);
+    this.filterSwitches = this.filterSwitches.bind(this);
+    this.otherDeptCodes = this.otherDeptCodes.bind(this);
   }
 
   componentDidMount() {
@@ -58,7 +60,7 @@ class SpecificCourse extends React.Component {
       data: this.codesDir,
       limit: 5
     });
-
+    $('.tooltipped').tooltip({delay: 10});
     $('.modal').modal();
 
     this.loadCourses();
@@ -149,7 +151,7 @@ class SpecificCourse extends React.Component {
   courseCircles(code, i) {
     return (
       <a key={i} href={"/course/" + this.props.dept + "/" + code} id={this.props.short + "-" + code}>
-        <div className="code-container col l3 m3 s4 teal lighten-2 white-text z-depth-1">
+        <div className="code-container col l3 m3 s4 white-text z-depth-1">
           <p>{code}</p>
         </div>
       </a>
@@ -165,84 +167,68 @@ class SpecificCourse extends React.Component {
     $('#search').val('');
   }
 
+  filterSwitches() {
+    return (
+      <div className="card-content">
+        <span className="card-title">Filters</span>
+        <div className="container">
+            {["LEC", "DIS", "LAB", "SEM", "IND", "GRP", "OTH"].map((comp, i) => {
+              return (
+                <div key={i} className="row">
+                  <div className="switch col s12">
+                    <label>
+                      {comp}
+                      <input checked={this.state.checked[comp]} onChange={() => this.onFilterChange(comp)} type="checkbox" />
+                      <span className="lever"></span>
+                    </label>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      </div>
+    );
+  }
+
+  otherDeptCodes() {
+    return (
+      <div className="card-reveal">
+        <span className="card-title grey-text text-darken-4">{this.props.dept} Courses<i className="material-icons right">close</i></span>
+        <div className="row all-codes-container">
+          {this.props.all_codes.map(this.courseCircles)}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="content container">
         <div className="header-container">
           <h4 style={{flex: 1}}>{this.props.dept} {this.props.code} {this.state.title}</h4>
         </div>
-        <div className="fixed-action-btn hide-on-med-and-up">
-          <a href="#filters-modal" className="btn-floating btn-large teal darken-4">
-            <i className="fa fa-bars"></i>
-          </a>
-        </div>
         <div id="filters-modal" className="modal">
-          <div className="modal-content">
-            <h5>Filters</h5>
+          <div className="card zero-margin">
             <i className="modal-action modal-close fa fa-close fa-2x close-modal-x"></i>
-            <div className="container">
-              {["LEC", "DIS", "LAB", "SEM", "IND", "GRP", "OTH"].map((comp, i) => {
-                return (
-                  <div key={i} className="row">
-                    <div className="switch col s12">
-                      <label>
-                        {comp}
-                        <input checked={this.state.checked[comp]} onChange={() => this.onFilterChange(comp)} type="checkbox" />
-                        <span className="lever"></span>
-                      </label>
-                    </div>
-                  </div>
-                );
-              })}
+            {this.filterSwitches()}
+            <div className="card-action">
+              <h6 className="activator btn-flat show-codes-button">Switch {this.props.dept} Course</h6>
             </div>
-            <h6>Switch {this.props.dept} Course</h6>
-            <nav id="class-search" className="">
-              <div className="nav-wrapper">
-                <form onSubmit={this.switchCourse}>
-                  <div className="input-field">
-                    <input placeholder="Search" className="autocomplete" id="search" type="search" autoComplete="off" required maxLength="8"/>
-                    <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
-                    <i onClick={this.switchCourse} className="material-icons">send</i>
-                  </div>
-                </form>
-              </div>
-            </nav>
+            {this.otherDeptCodes()}
           </div>
         </div>
         <div className="row">
           <div className="col m5 l4 hide-on-small-only">
             <div className="card white fixed">
-              <div className="card-content">
-                <span className="card-title">Filters</span>
-                <div className="container">
-                    {["LEC", "DIS", "LAB", "SEM", "IND", "GRP", "OTH"].map((comp, i) => {
-                      return (
-                        <div key={i} className="row">
-                          <div className="switch col s12">
-                            <label>
-                              {comp}
-                              <input checked={this.state.checked[comp]} onChange={() => this.onFilterChange(comp)} type="checkbox" />
-                              <span className="lever"></span>
-                            </label>
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
+              {this.filterSwitches()}
               <div className="card-action">
                 <h6 className="activator btn-flat show-codes-button">Switch {this.props.dept} Course</h6>
               </div>
-              <div className="card-reveal">
-                <span className="card-title grey-text text-darken-4">{this.props.dept} Courses<i className="material-icons right">close</i></span>
-                <div className="row all-codes-container">
-                  {this.props.all_codes.map(this.courseCircles)}
-                </div>
-              </div>
+              {this.otherDeptCodes()}
             </div>
           </div>
           <div className="col s12 m7 l8">
-            <div className="card teal lighten-1">
+            <div className="card spec-course-card">
               <div className="card-content white-text">
                 <span className="card-title">All <b>{this.props.dept} {this.props.code}</b> Courses</span>
                 {this.state.loadingCourses && this.loadingCourses()}
@@ -250,6 +236,28 @@ class SpecificCourse extends React.Component {
               </div>
             </div>
           </div>
+        </div>
+        <div className="fixed-action-btn hide-on-down-only">
+          <a className="btn btn-floating btn-large">
+            <i className="fa fa-bars"></i>
+          </a>
+          <ul>
+            <li className="hide-on-med-and-up">
+              <a href="#filters-modal" className="btn-floating black">
+                <i className="fa fa-sliders"></i>
+              </a>
+            </li>
+            <li>
+              <a href='/ccn' data-position="left" data-delay="10" data-tooltip="Search by CCN" className="btn-floating deep-purple tooltipped">
+                <i className="fa fa-id-badge"></i>
+              </a>
+            </li>
+            <li>
+              <a href='/' data-position="left" data-delay="10" data-tooltip="Home" className="btn-floating red tooltipped">
+                <i className="material-icons">home</i>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     );
