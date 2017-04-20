@@ -30,9 +30,9 @@ class CourseComponent extends React.Component {
       var meeting = course.meetings[0];
       startTime = meeting.startTime;
       endTime = meeting.endTime;
-      meetsDays = meeting.meetsDays;
+      meetsDays = meeting.meetsDays || "TBD";
       if (meeting.location) {
-        location = meeting.location.description;
+        location = meeting.location.description || "TBD";
       }
       if (meeting.assignedInstructors) {
         if (meeting.assignedInstructors[0].instructor) {
@@ -50,11 +50,11 @@ class CourseComponent extends React.Component {
       dept: course.class.course.subjectArea.code,
       code: course.class.course.catalogNumber.formatted,
       number: course.number,
-      day: meetsDays,
+      day: meetsDays || "TBD",
       start_time: startTime,
       end_time: endTime,
-      instructor: instructor,
-      location: location,
+      instructor: instructor || "No Specified Instructor",
+      location: location || "TBD",
       token: this.props.current_user.token
     };
     $.post("/add_class", classDict)
