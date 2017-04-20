@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   post 'sync_classes', to: "home#sync_classes"
   post 'delete_class', to: "home#delete_class"
 
-  get 'choose', to: "home#choose"
-
   get 'ccn', to: "home#ccn"
   get 'ccn_search', to: "home#ccn_search"
 

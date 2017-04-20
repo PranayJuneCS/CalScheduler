@@ -13,6 +13,17 @@ nav {
   background-color: #1976d2 !important;
 }
 
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.smaller-header {
+  font-size: 1.8rem;
+  text-align: left !important;
+}
+
 .zero-margin {
   margin: 0 !important;
 }
@@ -220,6 +231,11 @@ iframe {
 @media screen and (max-width: 600px) {
   .iframe {
     margin-top: 0px !important;
+  }
+
+  .smaller-header {
+    flex: 1;
+    text-align: center !important;
   }
 } 
 
