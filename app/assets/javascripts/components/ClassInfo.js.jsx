@@ -47,21 +47,10 @@ class ClassInfo extends React.Component {
   }
 
   syncedBadge() {
-    if (this.state.synced) {
-      return (
-        <div>
-          <span className="hide-on-small-only sync-badge new badge blue" data-badge-caption="Synced!"></span>
-          <div className="hide-on-med-and-up blue-bar"></div>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <span className="hide-on-small-only sync-badge new badge red" data-badge-caption="Unsynced!"></span>
-          <div className="hide-on-med-and-up red-bar"></div>
-        </div>
-      );
-    }
+    bar = this.state.synced ? 'sync-bar green darken-1' : 'sync-bar red';
+    return (
+      <div className={bar}></div>
+    );
   }
 
   loadingSync(icon) {
@@ -124,10 +113,12 @@ class ClassInfo extends React.Component {
         {this.syncedBadge()}
         <div className="collapsible-header">
           <div>
-            <span className="course-title">{this.state.dept} {this.state.code} {this.state.component} {this.state.number}</span>
-            <span className="course-time">{this.state.instructor}</span>
+            <span className="">{this.state.dept} {this.state.code} {this.state.component} {this.state.number}</span>
           </div>
         </div>
+        <a href={"#" + this.state.dept + this.state.code + this.state.component + this.state.number + "-removeModal"} className="delete-class-x">
+          <i className={this.loadingSync("fa-trash")}></i>
+        </a>
         <div className="collapsible-body">
           <div className="container class-container">
             <h5>{this.state.title}</h5>
@@ -135,13 +126,10 @@ class ClassInfo extends React.Component {
             <div className="row">
               <div className="col s6">
                 <h6>{this.formatDayTime()}</h6>
-                <span>{this.state.location}</span>
               </div>
               <div className="col s6">
-                <a href={"#" + this.state.dept + this.state.code + this.state.component + this.state.number + "-removeModal"} className="sync-button waves-effect waves-light btn">
-                  <i className={this.loadingSync("fa-times")}></i>
-                  Delete
-                </a>
+                <h6>{this.state.instructor}</h6>
+                <span>Location: {this.state.location}</span>
               </div>
             </div>
           </div>

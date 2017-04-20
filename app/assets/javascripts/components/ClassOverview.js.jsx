@@ -11,6 +11,7 @@ class ClassOverview extends React.Component {
     this.createClassInfo = this.createClassInfo.bind(this);
     this.syncClass = this.syncClass.bind(this);
     this.loadingSync = this.loadingSync.bind(this);
+    this.showClasses = this.showClasses.bind(this);
   }
 
   componentDidMount() {
@@ -41,6 +42,23 @@ class ClassOverview extends React.Component {
       refreshClasses += " fa-spin";
     }
     return refreshClasses;
+  }
+
+  showClasses() {
+    if (this.state.courses.length == 0) {
+      return (
+        <div className="content">
+          <h6>There are no courses in your schedule!</h6>
+          <a href="/choose" className="btn btn-flat margin-top-bottom-10">Add a Course</a>
+        </div>
+      );
+    } else {
+      return (
+        <ul className="collapsible popout" data-collapsible="accordion">
+          {this.state.courses.map(this.createClassInfo)}
+        </ul>
+      );
+    }
   }
 
   syncClass(e) {
@@ -80,10 +98,13 @@ class ClassOverview extends React.Component {
     return (
       <div className="row">
         <div className="col m5 l4 s12 content">
-          <h4>Current Schedule</h4>
-          <ul className="collapsible popout" data-collapsible="accordion">
-            {this.state.courses.map(this.createClassInfo)}
-          </ul>
+          <div className="sync-container">
+            <h4>Current Schedule</h4>
+            <a onClick={this.syncClass} className="btn btn-floating waves-effect waves-light">
+              <i className={this.loadingSync("fa-refresh")}></i>
+            </a>
+          </div>
+          {this.showClasses()}
         </div>
         <div className="col iframe margin-top-15 m7 push-m5 l8 push-l4 s12" dangerouslySetInnerHTML={this.showCalendar()} />
       </div>

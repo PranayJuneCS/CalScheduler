@@ -180,6 +180,24 @@ iframe {
   .iframe {
     position: fixed !important;
   }
+  .delete-class-x {
+    top: -35px !important;
+  }
+}
+
+@media screen and (min-width: 850px) {
+  .sync-bar {
+    height: 42px !important;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .sync-bar {
+    height: 44px !important;
+  }
+  .delete-class-x {
+    top: -37px !important;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -207,18 +225,30 @@ h6 {
   margin-top: 15px !important;
 }
 
-.blue-bar {
-  background-color: #1976d2;
+.sync-bar {
+  background-color: #F44336;
   width: 10px;
-  height: 42px;
+  height: 41px;
   position: absolute;
 }
 
-.red-bar {
-  background-color: #F44336;
-  width: 10px;
-  height: 42px;
-  position: absolute;
+.sync-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.margin-top-bottom-10 {
+  margin-top: 10px;
+  margin-bottom: 10px; 
+}
+
+.delete-class-x {
+  position: relative;
+  float: right;
+  top: -33px;
+  color: black;
+  font-size: 22px;
 }
 
 .dept-entry {
