@@ -96,16 +96,13 @@ class CourseID extends React.Component {
   render() {
     return (
       <div className="container content">
-        <div className="header-container">
-          <a href="/" className="btn-floating btn waves-effect waves-light">
-            <i className="material-icons">home</i>
-          </a>
-          <h4 style={{flex: 1}}>Add a Course</h4>
-          <a onClick={this.searchClick} className="btn-floating btn waves-effect waves-light right">
-            <i className="material-icons">search</i>
-          </a>
+        <div className="search-container">
+          <h4 className="smaller-header">Add a Course</h4>
+          <div className="hide-on-small-only">
+            <a href="/ccn" className="btn btn-flat">Search by CCN</a>
+          </div>
         </div>
-        <nav id="class-search">
+        <nav className="" id="class-search">
           <div className="nav-wrapper">
             <form onSubmit={this.submitForm}>
               <div className="input-field">
@@ -121,7 +118,7 @@ class CourseID extends React.Component {
             {this.showDepartments()}
           </tbody>
         </table>
-        <a href="/ccn" className="alt-ccn-search waves-effect waves-light btn"><i className="fa fa-id-badge left"></i>Search by CCN</a>
+        <a href="/ccn" className="alt-ccn-search black-text hide-on-med-and-up waves-effect waves-light btn">CCN Search</a>
       </div>
     );
   }

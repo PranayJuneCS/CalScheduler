@@ -53,7 +53,7 @@ class ClassOverview extends React.Component {
       return (
         <div className="content">
           <h6>There are no courses in your schedule!</h6>
-          <a href="/choose" className="btn btn-flat margin-top-bottom-10">Add a Course</a>
+          <a href="/course" className="btn btn-flat margin-top-bottom-10">Add a Course</a>
         </div>
       );
     } else {

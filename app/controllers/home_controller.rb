@@ -11,10 +11,6 @@ class HomeController < ApplicationController
                                        courses: @current_courses }
   end
 
-  def choose
-    render component: 'Choose', props: { current_user: @current_user.client_friendly_version }
-  end
-
   def ccn
     render component: 'CCN', props: { current_user: @current_user.client_friendly_version,
                                       ccns: @current_user.current_ccns }

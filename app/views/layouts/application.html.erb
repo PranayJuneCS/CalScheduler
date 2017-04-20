@@ -20,8 +20,8 @@
   <div class="navbar-fixed">
     <nav>
       <div class="nav-wrapper">
-        <a href="/" class="brand-logo left">Cal Scheduler</a>
         <% unless @current_user.nil? %>
+        <a href="/" class="brand-logo left">CalSync</a>
           <div id="dropdown1" class="card container dropdown-content">
             <div class="info-card card-content black-text">
               <div class="info-content">
@@ -39,13 +39,14 @@
                 <i class="fa fa-sign-out"></i>
                 Sign Out
               </a>
+              <a class="provide-feedback" target="_blank" href="https://goo.gl/forms/9JeSpnqXk4sZV1Io1">Provide Feedback</a>
             </div>
           </div>
 
           <ul class="right">
             <li class="">
-              <a href="/choose" class="hide-on-small-only"><i class="material-icons left">add</i>Add a Course</a>
-              <a href="/choose" class="hide-on-med-and-up"><i class="material-icons">add</i></a>
+              <a href="/course" class="hide-on-small-only"><i class="material-icons left">add</i>Add a Course</a>
+              <a href="/course" class="hide-on-med-and-up"><i class="material-icons">add</i></a>
             </li>
             <li>
               <a href="#my-schedule" class="hide-on-med-and-up">
@@ -62,6 +63,8 @@
               </a>
             </li>
           </ul>
+        <% else %>
+        <a href="/" class="brand-logo center">CalSync</a>
         <% end %>
       </div>
     </nav>

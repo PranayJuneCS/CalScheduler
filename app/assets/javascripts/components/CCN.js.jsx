@@ -20,7 +20,6 @@ class CCN extends React.Component {
     this.inputError = this.inputError.bind(this);
     this.searchError = this.searchError.bind(this);
     this.courseInfo = this.courseInfo.bind(this);
-    this.toggleCCNInfo = this.toggleCCNInfo.bind(this);
     this.formatClassTime = this.formatClassTime.bind(this);
     this.addClass = this.addClass.bind(this);
     this.scheduleStatus = this.scheduleStatus.bind(this);
@@ -111,15 +110,6 @@ class CCN extends React.Component {
       );
     }
     return null;
-  }
-
-  toggleCCNInfo() {
-    $("#ccn-action").slideToggle("slow");
-    if (this.state.ccnState == "up") {
-      this.setState({ ccnState: "down" });
-    } else {
-      this.setState({ ccnState: "up" });
-    }
   }
 
   formatClassTime(start, end) {
@@ -237,7 +227,7 @@ class CCN extends React.Component {
                   <p>{course.instructor}</p>
                 </div>
               </div>
-              <div id="ccn-action" className="row no-margin-bottom">
+              <div id="" className="row no-margin-bottom">
                 <div className="col s12 hide-on-med-and-up">
                   <h6>{course.title}</h6>
                 </div>
@@ -255,9 +245,6 @@ class CCN extends React.Component {
                 </div>
                 {this.scheduleStatus()}
               </div>
-              <div onClick={this.toggleCCNInfo} className="ccn-more-container">
-                <i className={"fa fa-chevron-" + this.state.ccnState + " fa-lg"}></i>
-              </div>
             </div>
           </div>
         </div>
@@ -269,16 +256,13 @@ class CCN extends React.Component {
   render() {
     return (
       <div className="content container">
-        <div className="header-container">
-          <a href="/" className="btn-floating btn waves-effect waves-light">
-            <i className="material-icons">home</i>
-          </a>
-          <h4 style={{flex: 1}}>Add a Course</h4>
-          <a onClick={this.searchClick} className="btn-floating btn waves-effect waves-light right">
-            <i className="material-icons">search</i>
-          </a>
+        <div className="search-container">
+          <h4 className="smaller-header">Add a Course by CCN</h4>
+          <div className="hide-on-small-only">
+            <a href="/course" className="btn btn-flat">Course Info Search</a>
+          </div>
         </div>
-        <nav id="class-search" className="animated fadeIn">
+        <nav id="class-search" className="">
           <div className="nav-wrapper">
             <form onSubmit={this.submitForm}>
               <div className="input-field">
@@ -294,7 +278,7 @@ class CCN extends React.Component {
         {this.searchError()}
         {this.loading()}
         {this.courseInfo()}
-        <a href="/course" className="alt-search waves-effect waves-light btn"><i className="fa fa-info-circle left"></i>Search by Course Info</a>
+        <a href="/course" className="alt-search black-text hide-on-med-and-up waves-effect waves-light btn">Course Info Search</a>
       </div>
     );
   }
