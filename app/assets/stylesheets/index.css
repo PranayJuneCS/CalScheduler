@@ -59,6 +59,14 @@ nav {
   padding-top: 15px;
 }
 
+.padding-top-20 {
+  padding-top: 20px;
+}
+
+.margin-top-15 {
+  margin-top: 15px;
+}
+
 .margin-top-6 {
   margin-top: 6px;
 }
@@ -80,7 +88,8 @@ nav {
 }
 
 a.brand-logo.left {
-  padding-left: 10px !important;
+  padding-left: 15px !important;
+  font-size: 25px;
 }
 
 #class-search {
@@ -166,6 +175,18 @@ a.brand-logo.left {
 iframe {
   width: 100%;
 }
+
+@media screen and (min-width: 601px) {
+  .iframe {
+    position: fixed !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .iframe {
+    margin-top: 0px !important;
+  }
+} 
 
 .class-container {
   width: 85% !important;

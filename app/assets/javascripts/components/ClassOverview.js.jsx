@@ -78,24 +78,14 @@ class ClassOverview extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="content container">
-          <div className="header-container">
-            <a onClick={this.syncClass} data-position="right" data-delay="1000" data-tooltip="Sync With Google" className="btn-floating btn waves-effect waves-light left tooltipped">
-              <i className={this.loadingSync("fa-refresh")}></i>
-            </a>
-            <h4 style={{flex: 1}}>My Schedule</h4>
-            <a href="/choose" data-position="left" data-delay="1000" data-tooltip="Add Courses" className="btn-floating btn waves-effect waves-light right tooltipped">
-              <i className="material-icons">add</i>
-            </a>
-          </div>
+      <div className="row">
+        <div className="col m5 l4 s12 content">
+          <h4>Current Schedule</h4>
           <ul className="collapsible popout" data-collapsible="accordion">
             {this.state.courses.map(this.createClassInfo)}
           </ul>
         </div>
-        <div className="animated fadeIn">
-          <div dangerouslySetInnerHTML={this.showCalendar()} />
-        </div>
+        <div className="col iframe margin-top-15 m7 push-m5 l8 push-l4 s12" dangerouslySetInnerHTML={this.showCalendar()} />
       </div>
     );
   }
