@@ -1,12 +1,20 @@
 body {
-  background-color: #e0f2f1;
+  background-color: white;
   min-height: 100%;
   margin: 0;
   padding: 0;
 }
 
 nav {
-  background-color: #009688; 
+  background-color: #1976d2; 
+}
+
+.nav-color {
+  background-color: #1976d2 !important;
+}
+
+.zero-margin {
+  margin: 0 !important;
 }
 
 .content {
@@ -64,7 +72,7 @@ nav {
   color: white !important;
   height: 36px;
   padding: 10px 20px;
-  background-color: #009688;
+  background-color: #1976d2;
   border-radius: 2px;
   margin-right: 0px !important;
 }
@@ -78,7 +86,7 @@ nav {
 }
 
 #class-search {
-  background-color: #00796b !important;
+  background-color: #0d47a1 !important;
 }
 
 .add-specific-class {
@@ -86,8 +94,20 @@ nav {
   cursor: pointer;
 }
 
+.switch label input[type=checkbox]:checked+.lever {
+  background-color: #42a5f5 !important;
+}
+
+.switch label input[type=checkbox]:checked+.lever:after {
+  background-color: #1976d2 !important;
+}
+
 .add-specific-class:hover {
-  color: #009688;
+  color: #1976d2;
+}
+
+.spec-course-card {
+  background-color: #1976d2;
 }
 
 .info-content {
@@ -169,7 +189,7 @@ h6 {
 }
 
 .blue-bar {
-  background-color: #2196F3;
+  background-color: #1976d2;
   width: 10px;
   height: 42px;
   position: absolute;
@@ -204,7 +224,7 @@ h6 {
 }
 
 .sk-cube::before {
-  background-color: #00796b !important;
+  background-color: black !important;
 }
 
 .load::before {
@@ -218,7 +238,7 @@ h6 {
 }
 
 .choice:hover {
-  background-color: #009688;
+  background-color: #1976d2;
   color: white;
   transform: scale(1.05)
 }
@@ -233,6 +253,14 @@ h6 {
 
 .alt-search {
   margin: 2.5rem;
+}
+
+.btn {
+  background-color: #f9a825;
+}
+
+.btn:hover {
+  background-color: #fbc02d;
 }
 
 .clear-field {
@@ -282,6 +310,7 @@ h6 {
 }
 
 .code-container {
+  background-color: #2196f3;
   border: #f2f2f2 1px solid;
 }
 

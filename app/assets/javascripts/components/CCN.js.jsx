@@ -196,7 +196,7 @@ class CCN extends React.Component {
         <div>
           <div className="col s4 hide-on-large-only">
             <p>
-              <a onClick={this.addClass} className="btn-floating waves-effect waves-light teal darken-1">
+              <a onClick={this.addClass} className="btn btn-floating waves-effect waves-light">
                 {!this.state.addingClass && <i className="material-icons">add</i>}
                 {this.state.addingClass && <i className="fa fa-spinner fa-pulse fa-fw"></i>}
               </a>
@@ -204,7 +204,7 @@ class CCN extends React.Component {
           </div>
           <div className="col s4 hide-on-med-and-down">
             <p>
-              <a onClick={this.addClass} className="waves-effect waves-light btn teal darken-1">
+              <a onClick={this.addClass} className="waves-effect waves-light btn">
                 {!this.state.addingClass && <i className="fa fa-plus left"></i>}
                 {this.state.addingClass && <i className="fa fa-spinner fa-pulse fa-fw left"></i>}
                 Add To Schedule
