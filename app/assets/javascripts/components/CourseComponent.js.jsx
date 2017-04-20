@@ -144,7 +144,7 @@ class CourseComponent extends React.Component {
         return (
           <div className="col s3">
             <p>
-              <i onClick={() => this.showMoreInfo(course)} className="add-course-plus fa fa-plus-circle fa-2x"></i>
+              <i onClick={() => this.showMoreInfo(course)} className="add-course-plus material-icons">add</i>
             </p>
           </div>
         );

@@ -1,6 +1,6 @@
 class Home extends React.Component {
-  
-  loggedIn() {
+
+  render() {
     if (this.props.current_user) {
       return (
         <ClassOverview
@@ -13,13 +13,5 @@ class Home extends React.Component {
         <Login />
       );
     }
-  }
-
-  render() {
-    return (
-      <div className="container">
-        {this.loggedIn()}
-      </div>
-    );
   }
 }

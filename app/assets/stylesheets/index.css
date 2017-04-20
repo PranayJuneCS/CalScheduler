@@ -1,5 +1,5 @@
 body {
-  background-color: white;
+  background-color: #eceff1;
   min-height: 100%;
   margin: 0;
   padding: 0;
@@ -59,6 +59,14 @@ nav {
   padding-top: 15px;
 }
 
+.padding-top-20 {
+  padding-top: 20px;
+}
+
+.margin-top-15 {
+  margin-top: 15px;
+}
+
 .margin-top-6 {
   margin-top: 6px;
 }
@@ -68,21 +76,20 @@ nav {
   overflow: hidden !important;
 }
 
-.signout-link {
-  color: white !important;
-  height: 36px;
-  padding: 10px 20px;
-  background-color: #1976d2;
-  border-radius: 2px;
-  margin-right: 0px !important;
+.signout-button {
+  margin-left: 40px !important;
+  margin-right: 40px !important;
+  margin-top:14px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  background-color: #1976d2 !important;
 }
 
-.signout-link i {
-  padding-right: 10px;
-}
-
-.signout-link:hover {
-  box-shadow: 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12), 0 3px 5px -1px rgba(0,0,0,0.3) !important;
+a.brand-logo.left {
+  padding-left: 13px !important;
+  font-size: 25px;
 }
 
 #class-search {
@@ -165,9 +172,56 @@ nav {
   padding-bottom: 10px;
 }
 
+.current-schedule {
+  font-size: 1.85rem !important;
+  flex: 1;
+  margin-left: 30px;
+}
+
 iframe {
   width: 100%;
+  height: 100%;
 }
+
+.iframe {
+  height: 80vh;
+}
+
+@media screen and (max-height: 450px) {
+  iframe {
+    height: 80%;
+  }
+}
+
+@media screen and (min-width: 601px) {
+  .iframe {
+    position: fixed !important;
+  }
+  .delete-class-x {
+    top: -35px !important;
+  }
+}
+
+@media screen and (min-width: 850px) {
+  .sync-bar {
+    height: 42px !important;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .sync-bar {
+    height: 44px !important;
+  }
+  .delete-class-x {
+    top: -37px !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .iframe {
+    margin-top: 0px !important;
+  }
+} 
 
 .class-container {
   width: 85% !important;
@@ -188,18 +242,29 @@ h6 {
   margin-top: 15px !important;
 }
 
-.blue-bar {
-  background-color: #1976d2;
+.sync-bar {
+  background-color: #F44336;
   width: 10px;
-  height: 42px;
+  height: 41px;
   position: absolute;
 }
 
-.red-bar {
-  background-color: #F44336;
-  width: 10px;
-  height: 42px;
-  position: absolute;
+.sync-container {
+  display: flex;
+  align-items: center;
+}
+
+.margin-top-bottom-10 {
+  margin-top: 10px;
+  margin-bottom: 10px; 
+}
+
+.delete-class-x {
+  position: relative;
+  float: right;
+  top: -33px;
+  color: black;
+  font-size: 22px;
 }
 
 .dept-entry {
