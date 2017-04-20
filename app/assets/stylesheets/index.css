@@ -210,6 +210,10 @@ iframe {
   .signout-button {
     align-items: initial !important;
   }
+
+  a.brand-logo.left {
+    padding-left: 3px !important;
+  }
 } 
 
 .class-container {
