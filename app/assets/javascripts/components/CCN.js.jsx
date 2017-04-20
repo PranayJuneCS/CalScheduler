@@ -20,7 +20,6 @@ class CCN extends React.Component {
     this.inputError = this.inputError.bind(this);
     this.searchError = this.searchError.bind(this);
     this.courseInfo = this.courseInfo.bind(this);
-    this.toggleCCNInfo = this.toggleCCNInfo.bind(this);
     this.formatClassTime = this.formatClassTime.bind(this);
     this.addClass = this.addClass.bind(this);
     this.scheduleStatus = this.scheduleStatus.bind(this);
@@ -111,15 +110,6 @@ class CCN extends React.Component {
       );
     }
     return null;
-  }
-
-  toggleCCNInfo() {
-    $("#ccn-action").slideToggle("slow");
-    if (this.state.ccnState == "up") {
-      this.setState({ ccnState: "down" });
-    } else {
-      this.setState({ ccnState: "up" });
-    }
   }
 
   formatClassTime(start, end) {
