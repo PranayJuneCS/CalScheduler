@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180106182349) do
+ActiveRecord::Schema.define(version: 20180106211313) do
 
   create_table "codes", force: :cascade do |t|
     t.datetime "created_at",    null: false
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20180106182349) do
     t.datetime "updated_at",                 null: false
     t.integer  "user_id"
     t.boolean  "synced",     default: false
-    t.string   "event_id"
+    t.string   "event_id_1"
     t.string   "ccn"
     t.string   "component"
     t.string   "start_time"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20180106182349) do
     t.string   "dept"
     t.string   "code"
     t.string   "number"
+    t.string   "event_id_2"
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 

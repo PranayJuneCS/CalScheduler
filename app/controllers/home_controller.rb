@@ -47,7 +47,7 @@ class HomeController < ApplicationController
     if not @current_user.validate_request(params[:token])
       render json: {code: "404", message: "Invalid Request."} and return
     end
-    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2178&subject-area-code=#{params[:dept]}&catalog-number=#{params[:code]}&include-secondary=true&status-code=A")
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2182&subject-area-code=#{params[:dept]}&catalog-number=#{params[:code]}&include-secondary=true&status-code=A")
     req = Net::HTTP::Get.new(uri)
 
     req["Accept"] = 'application/json'
@@ -119,7 +119,7 @@ class HomeController < ApplicationController
     if not @current_user.validate_request(params[:token])
       render json: {code: "404", message: "Invalid Request."} and return
     end
-    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections/#{params[:ccn]}?term-id=2178")
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections/#{params[:ccn]}?term-id=2182")
     req = Net::HTTP::Get.new(uri)
 
     req["Accept"] = 'application/json'
@@ -220,11 +220,19 @@ class HomeController < ApplicationController
                          )
 
     course = Course.find_by_ccn(params[:ccn])
-    event_arr = cal.find_event_by_id(course.event_id)
-    if event_arr.present? and event_arr.size == 1
-      event = event_arr[0]
+
+    event_arr_1 = cal.find_event_by_id(course.event_id_1)
+    if event_arr_1.present? and event_arr_1.size == 1
+      event = event_arr_1[0]
       cal.delete_event(event)
     end
+
+    event_arr_2 = cal.find_event_by_id(course.event_id_2)
+    if event_arr_2.present? and event_arr_2.size == 1
+      event = event_arr_2[0]
+      cal.delete_event(event)
+    end
+
     course.destroy
 
     render json: @current_courses
