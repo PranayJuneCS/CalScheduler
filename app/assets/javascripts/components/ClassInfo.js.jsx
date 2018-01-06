@@ -40,7 +40,7 @@ class ClassInfo extends React.Component {
         var displayName = [this.state.dept, this.state.code, this.state.component, this.state.number].join(" ");
         Materialize.toast(displayName + ' has been removed from Google Calendar and your schedule.', 2000, '', () => {
           this.setState({ removingClass: false });
-          this.state.refreshStatus(data);
+          this.props.refreshStatus(data);
         });
       }).fail( function(e) {
         console.log("Failed unsyncing with Google Calendar.");
