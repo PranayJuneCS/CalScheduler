@@ -25,11 +25,6 @@ class ClassOverview extends React.Component {
     });
     $(".calendar-icon").addClass("hide");
     $('.tooltipped').tooltip({delay: 1000});
-    $("#my-schedule").modal();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    $("#my-schedule").modal();
   }
 
   componentWillUnmount() {

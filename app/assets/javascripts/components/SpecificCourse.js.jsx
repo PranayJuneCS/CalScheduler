@@ -54,14 +54,12 @@ class SpecificCourse extends React.Component {
       belowOrigin: true,
       gutter: 0
     });
-    $("#my-schedule").modal();
 
     $('input.autocomplete').autocomplete({
       data: this.codesDir,
       limit: 5
     });
     $('.tooltipped').tooltip({delay: 10});
-    $('.modal').modal();
 
     this.loadCourses();
   }

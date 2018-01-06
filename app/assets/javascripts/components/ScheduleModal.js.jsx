@@ -14,24 +14,17 @@ class ScheduleModal extends React.Component {
   }
 
   componentWillMount() {
+  }
+
+  componentDidMount() {
     $("#my-schedule").modal({
       ready: ((modal, trigger) => {
-        console.log("OPEN");
         this.loadSchedule();
       })
     });
   }
 
-  componentDidMount() {
-    this.loadSchedule();
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    $("#my-schedule").modal({
-      ready: ((modal, trigger) => {
-        this.loadSchedule();
-      })
-    })
   }
 
   loadSchedule() {
