@@ -53,7 +53,7 @@ class Course < ApplicationRecord
     else
       'monday'
     end
-    semester_start_day = dst ? Date.new(2018, 3, 10) : Date.new(2018, 1, 16)
+    semester_start_day = dst ? Date.new(2018, 3, 10) : Date.new(2018, 1, 15)
     Chronic.parse("next #{real_day}", now: semester_start_day)
   end
 
