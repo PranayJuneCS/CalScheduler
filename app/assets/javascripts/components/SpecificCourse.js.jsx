@@ -60,6 +60,7 @@ class SpecificCourse extends React.Component {
       limit: 5
     });
     $('.tooltipped').tooltip({delay: 10});
+    $('#filters-modal').modal();
 
     this.loadCourses();
   }
