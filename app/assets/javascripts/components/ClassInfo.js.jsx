@@ -35,12 +35,14 @@ class ClassInfo extends React.Component {
     $.post("/delete_class", classDict)
       .done( (data) => {
         var displayName = [this.state.dept, this.state.code, this.state.component, this.state.number].join(" ");
-        Materialize.toast(displayName + ' has been removed from Google Calendar and your schedule.', 2000, '', () => {
+        Materialize.toast(displayName + ' has been removed from Google Calendar and your schedule.', 2500, '', () => {
           this.setState({ removingClass: false });
           this.props.refreshStatus(data);
         });
-      }).fail( function(e) {
-        console.log("Failed unsyncing with Google Calendar.");
+      }).fail( (e) => {
+        Materialize.toast('Oh no! An error has occurred (possibly with your connnection!). Please try again.', 2500, '', () => {
+          this.setState({ removingClass: false });
+        });
       });
   }
 
@@ -121,7 +123,7 @@ class ClassInfo extends React.Component {
           <div className="container class-container">
             <h5>{this.state.title}</h5>
             <div className="divider"></div>
-            <div className="row">
+            <div className="row collapsible-row-info">
               <div className="col s6">
                 <h6>{this.formatDayTime()}</h6>
               </div>
@@ -130,6 +132,7 @@ class ClassInfo extends React.Component {
                 <span>Location: {this.state.location}</span>
               </div>
             </div>
+            <div className="final-time">{this.state.final_exam_string}</div>
           </div>
         </div>
       </li>

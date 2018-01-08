@@ -11,10 +11,9 @@ class SpecificCourse extends React.Component {
         LEC: 1,
         DIS: 1,
         LAB: 1,
-        IND: 1,
         SEM: 1,
-        GRP: 1,
-        OTH: 1
+        REC: 1,
+        OTHER: 1
       }
 
     };
@@ -29,10 +28,9 @@ class SpecificCourse extends React.Component {
       LEC: "Lectures",
       DIS: "Discussions",
       LAB: "Labs",
-      IND: "Independent Study",
       SEM: "Seminars",
-      GRP: "Group Study",
-      OTH: "Other"
+      REC: "Recitation",
+      OTHER: "Other"
     };
 
     this.loadingCourses = this.loadingCourses.bind(this);
@@ -86,8 +84,15 @@ class SpecificCourse extends React.Component {
                           })
     .done((data) => {
       if (data.code != "200") {
-        this.setState({ loadingCourses: false });
-        console.log("SHIZ");
+        if (data.message == "Not Found") {
+          Materialize.toast('Oh no! There is no data for this course. Try a different course.', 2500, '', () => {
+            this.setState({ loadingCourses: false });
+          });
+        } else {
+          Materialize.toast('Oh no! An error has occurred (possibly with your connnection!). Please try again.', 2500, '', () => {
+            this.setState({ loadingCourses: false });
+          });
+        }
       } else {
         setTimeout(() => {
           this.setState({
@@ -100,8 +105,9 @@ class SpecificCourse extends React.Component {
       }
     })
     .fail((e) => {
-      this.setState({ loadingCourses: false });
-      console.log("SHIZ");
+      Materialize.toast('Oh no! An error has occurred (possibly with your connnection!). Please try again.', 2500, '', () => {
+          this.setState({ loadingCourses: false });
+        });
     })
   }
 
@@ -114,10 +120,9 @@ class SpecificCourse extends React.Component {
   displayCourses() {
     return (
       <div>
-        {["LEC", "DIS", "LAB", "SEM", "IND", "GRP", "OTH"].map((component, i) => {
+        {["LEC", "DIS", "LAB", "SEM", "REC", "OTHER"].map((component, i) => {
           return (
             <CourseComponent
-              comp={component}
               component={this.translateDict[component]}
               key={i}
               courses={this.state[component]}
@@ -171,7 +176,7 @@ class SpecificCourse extends React.Component {
       <div className="card-content">
         <span className="card-title">Filters</span>
         <div className="container">
-            {["LEC", "DIS", "LAB", "SEM", "IND", "GRP", "OTH"].map((comp, i) => {
+            {["LEC", "DIS", "LAB", "SEM", "REC", "OTHER"].map((comp, i) => {
               return (
                 <div key={i} className="row">
                   <div className="switch col s12">

@@ -59,15 +59,14 @@ class HomeController < ApplicationController
     }
     resp_body = JSON.parse(response.body)["apiResponse"]
     if resp_body["httpStatus"]["code"] != "200"
-      render json: {code: "404", message: "Invalid Request."}
+      render json: {code: "404", message: resp_body["httpStatus"]["description"]}
     else
       sections = resp_body["response"]["classSections"]
       lecs = []
       discs = []
       labs = []
       sems = []
-      inds = []
-      grps = []
+      recs = []
       others = []
       sections.each do |section|
         case section["component"]["code"]
@@ -79,10 +78,8 @@ class HomeController < ApplicationController
           labs << section
         when "SEM"
           sems << section
-        when "IND"
-          inds << section
-        when "GRP"
-          grps << section
+        when "REC"
+          recs << section
         else
           others << section
         end
@@ -93,9 +90,8 @@ class HomeController < ApplicationController
                       DIS: discs,
                       LAB: labs,
                       SEM: sems,
-                      IND: inds,
-                      GRP: grps,
-                      OTH: others
+                      REC: recs,
+                      OTHER: others
                     },
                     title: sections[0]["class"]["course"]["title"]
                    }
@@ -144,6 +140,7 @@ class HomeController < ApplicationController
       subject_area = helpers.parse_subject_area(section)
       catalog_number = helpers.parse_catalog_number(section)
       course_title = helpers.parse_course_title(section)
+      course_primary = helpers.parse_primary(section)
       render json: {code: "200",
                     course: {
                       ccn: ccn,
@@ -156,7 +153,8 @@ class HomeController < ApplicationController
                       instructor: instructor,
                       subject_area: subject_area,
                       catalog_number: catalog_number,
-                      title: course_title
+                      title: course_title,
+                      primary: course_primary
                     }
                    }
     else
@@ -167,6 +165,26 @@ class HomeController < ApplicationController
   def add_class
     if not @current_user.validate_request(params[:token])
       render json: {code: "404", message: "Invalid Request."} and return
+    end
+
+    final_exam_status = false
+    if params[:primary] == "true"
+      uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes?term-id=2182&subject-area-code=#{params[:dept]}&catalog-number=#{params[:code]}")
+      req = Net::HTTP::Get.new(uri)
+
+      req["Accept"] = 'application/json'
+      req["app_id"] = ENV['calnet_app_id']
+      req["app_key"] = ENV['calnet_app_secret']
+
+      response = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') {|http|
+        http.request(req)
+      }
+      resp_body = JSON.parse(response.body)["apiResponse"]
+      if resp_body["httpStatus"]["code"] != "200"
+        head 500 and return
+      end
+      section = resp_body["response"]["classes"][0]
+      final_exam_status = helpers.parse_final_exam(section)
     end
     new_course = Course.new(title: params[:title],
                             day: params[:day],
@@ -179,7 +197,12 @@ class HomeController < ApplicationController
                             dept: params[:dept],
                             code: params[:code],
                             number: params[:number],
+                            primary: params[:primary] == "true",
+                            has_final_exam: final_exam_status,
                             user_id: @current_user.id)
+    if final_exam_status
+      new_course.final_exam_string = new_course.get_final_exam_string
+    end
     unless new_course.nil?
       new_course.save!
       @current_courses = @current_user.courses
@@ -231,6 +254,14 @@ class HomeController < ApplicationController
     if event_arr_2.present? and event_arr_2.size == 1
       event = event_arr_2[0]
       cal.delete_event(event)
+    end
+
+    if course.has_final_exam
+      final_event = cal.find_event_by_id(course.final_event_id)
+      if final_event.present? and final_event.size == 1
+        event = final_event[0]
+        cal.delete_event(event)
+      end
     end
 
     course.destroy

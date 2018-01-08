@@ -50,8 +50,9 @@ class CCN extends React.Component {
           }
         }, 1800);
       }).fail( (e) => {
-        this.setState({ searching: false });
-        console.log("SHIZ");
+        Materialize.toast('Oh no! An error has occurred (possibly with your connnection!). Please try again.', 2500, '', () => {
+          this.setState({ searching: false });
+        });
       });
     }
   }
@@ -153,18 +154,21 @@ class CCN extends React.Component {
       dept: this.state.course.subject_area,
       code: this.state.course.catalog_number,
       number: this.state.course.number,
+      primary: this.state.course.primary,
       token: this.props.current_user.token
     };
     $.post("/add_class", classDict)
       .done( (data) => {
         var displayName = [classDict.dept, classDict.code, classDict.component, classDict.number].join(' ')
-        Materialize.toast(displayName + ' has been added to your schedule!', 2000, '', () => {
+        Materialize.toast(displayName + ' has been added to your schedule!', 2500, '', () => {
           var currCCNs = this.state.ccns;
           currCCNs.push(this.state.course.ccn);
           this.setState({ addingClass: false, ccns: currCCNs });
         });
-      }).fail( function(e) {
-        console.log("SHIZ");
+      }).fail( (e) => {
+        Materialize.toast('Oh no! An error has occurred. Please try again.', 2500, '', () => {
+          this.setState({ addingClass: false });
+        });
       });
   }
 

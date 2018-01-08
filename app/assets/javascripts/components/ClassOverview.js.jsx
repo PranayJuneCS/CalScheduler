@@ -4,7 +4,8 @@ class ClassOverview extends React.Component {
     super(props);
     this.state = {
       courses: this.props.courses,
-      syncingClasses: false
+      syncingClasses: false,
+      jumpTo: 'Finals Schedule'
     };
     
     this.refreshStatus = this.refreshStatus.bind(this);
@@ -12,6 +13,7 @@ class ClassOverview extends React.Component {
     this.syncClass = this.syncClass.bind(this);
     this.loadingSync = this.loadingSync.bind(this);
     this.showClasses = this.showClasses.bind(this);
+    this.jump = this.jump.bind(this);
   }
 
   componentDidMount() {
@@ -54,10 +56,20 @@ class ClassOverview extends React.Component {
       );
     } else {
       return (
-        <ul className="collapsible popout" data-collapsible="accordion">
+        <ul className="collapsible" data-collapsible="accordion">
           {this.state.courses.map(this.createClassInfo)}
         </ul>
       );
+    }
+  }
+
+  jump() {
+    if (this.state.jumpTo === "Finals Schedule") {
+      $("#cal-iframe").attr("src", 'https://calendar.google.com/calendar/embed?mode=WEEK&title=Your%20Calendar&showTitle=0&showPrint=0&showCalendars=0&wkst=1&bgcolor=%231976d2&src=' + encodeURIComponent(this.props.user.email) + '&color=%23691426&ctz=America%2FLos_Angeles&dates=20180507%2F20180513')
+      this.setState({ jumpTo: "Start of Semester" })
+    } else {
+      $("#cal-iframe").attr("src", 'https://calendar.google.com/calendar/embed?mode=MONTH&title=Your%20Calendar&showTitle=0&showPrint=0&showCalendars=0&wkst=1&bgcolor=%231976d2&src=' + encodeURIComponent(this.props.user.email) + '&color=%23691426&ctz=America%2FLos_Angeles&dates=20180101%2F20180131')
+      this.setState({ jumpTo: "Finals Schedule" })
     }
   }
 
@@ -68,12 +80,14 @@ class ClassOverview extends React.Component {
     };
     $.post("/sync_classes", classDict)
       .done( (data) => {
-        Materialize.toast('Your schedule has been synced with Google Calendar!', 2000, '', () => {
+        Materialize.toast('Your schedule has been synced with Google Calendar!', 2500, '', () => {
           document.getElementById('cal-iframe').src += '';
           this.setState({ syncingClasses: false, courses: data });
         });
-      }).fail( function(e) {
-        console.log("Failed syncing with Google Calendar.");
+      }).fail( (e) => {
+        Materialize.toast('Oh no! An error has occurred (possibly with your connnection!). Please try again.', 2500, '', () => {
+          this.setState({ syncingClasses: false });
+        });
       });
   }
 
@@ -104,7 +118,12 @@ class ClassOverview extends React.Component {
               <i className={this.loadingSync("fa-refresh")}></i>
             </a>
           </div>
+          <p>Make sure to sync to see your schedule in your calendar!</p>
+          <p className="final-note"><b>Please Note</b>: All listed final times are based on the schedule <a target="_blank" href="http://registrar.berkeley.edu/sis-SC-message">here</a> and are subject to change at any time. Please double check these times as the semester begins.</p>
           {this.showClasses()}
+          <div className="jump-calendar" onClick={this.jump}>
+            Jump to {this.state.jumpTo}
+          </div>
         </div>
         <div className="col iframe margin-top-15 m7 push-m5 l8 push-l4 s12" dangerouslySetInnerHTML={this.showCalendar()} />
       </div>

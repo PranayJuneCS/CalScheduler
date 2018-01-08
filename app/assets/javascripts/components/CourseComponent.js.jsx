@@ -55,17 +55,20 @@ class CourseComponent extends React.Component {
       end_time: endTime,
       instructor: instructor || "No Specified Instructor",
       location: location || "TBD",
+      primary: course.association.primary,
       token: this.props.current_user.token
     };
     $.post("/add_class", classDict)
       .done( (data) => {
         var displayName = [classDict.dept, classDict.code, classDict.component, classDict.number].join(' ')
-        Materialize.toast(displayName + ' has been added to your schedule!', 2000, '', () => {
+        Materialize.toast(displayName + ' has been added to your schedule!', 2500, '', () => {
           this.props.updateCCNs(classDict.ccn);
           this.setState({ addingCourse: null });
         });
-      }).fail( function(e) {
-        console.log("SHIZ");
+      }).fail( (e) => {
+        Materialize.toast('Oh no! An error has occurred. Please try again.', 2500, '', () => {
+          this.setState({ addingCourse: null });
+        });
       });
   }
 
@@ -106,7 +109,7 @@ class CourseComponent extends React.Component {
       <div key={i} className="">
         <div className="row course-row">
           <div className="col s3">
-            <p><b>{course.id}</b> - {this.props.comp} {course.number}</p>
+            <p><b>{course.id}</b> - {course.component.code} {course.number}</p>
           </div>
           <div className="col s3">
             <p>{meeting}</p>

@@ -71,4 +71,12 @@ module HomeHelper
   def parse_course_title(section)
     section["class"]["course"]["title"]
   end
+
+  def parse_primary(section)
+    section["association"]["primary"]
+  end
+
+  def parse_final_exam(section)
+    section["finalExam"]["code"] != "N"
+  end
 end

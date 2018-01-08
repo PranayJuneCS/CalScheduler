@@ -41,11 +41,11 @@ class DepartmentEntry extends React.Component {
           this.setState({ codes: data.codes });
           this.toggleCodesInfo();
         } else {
-          console.log(data.message);
+          Materialize.toast('Oh no! An error has occurred (possibly with your connnection!). Please try again.', 2500, '', () => {});
         }
       })
       .fail((e) => {
-        console.log("SHIZ");
+        Materialize.toast('Oh no! An error has occurred (possibly with your connnection!). Please try again.', 2500, '', () => {});
       })
     } else {
       this.toggleCodesInfo();

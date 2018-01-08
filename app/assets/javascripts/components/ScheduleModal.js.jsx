@@ -33,7 +33,9 @@ class ScheduleModal extends React.Component {
       this.setState({ courses: data.courses });
     })
     .fail((e) => {
-      console.log("SHIZ");
+      Materialize.toast('Oh no! An error has occurred (possibly with your connnection!). Please try again.', 2500, '', () => {
+        this.setState({ courses: {} });
+      });
     })
   }
 
@@ -44,12 +46,14 @@ class ScheduleModal extends React.Component {
     };
     $.post("/sync_classes", classDict)
       .done( (data) => {
-        Materialize.toast('Your schedule has been synced with Google Calendar!', 2000, '', () => {
+        Materialize.toast('Your schedule has been synced with Google Calendar!', 2500, '', () => {
           this.setState({ syncingClasses: false });
           this.loadSchedule();
         });
-      }).fail( function(e) {
-        console.log("Failed syncing with Google Calendar.");
+      }).fail( (e) => {
+        Materialize.toast('Oh no! An error has occurred (possibly with your connnection!). Please try again.', 2500, '', () => {
+          this.setState({ syncingClasses: false });
+        });
       });
   }
 

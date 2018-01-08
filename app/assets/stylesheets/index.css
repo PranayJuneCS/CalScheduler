@@ -200,6 +200,7 @@ iframe {
 @media screen and (max-width: 600px) {
   .iframe {
     margin-top: 0px !important;
+    padding-top: 20px !important;
   }
 
   .smaller-header {
@@ -234,6 +235,7 @@ h6 {
 .sync-container {
   display: flex;
   align-items: center;
+  border-bottom: #bfbdbd 0.25px solid;
 }
 
 .margin-top-bottom-10 {
@@ -350,4 +352,24 @@ h6 {
 
 .all-codes-container {
   margin-top: 35px !important;
+}
+
+.collapsible-row-info {
+  margin-bottom: 10px !important;
+}
+
+.final-time {
+  font-size: 12px !important;
+}
+
+.final-note {
+  font-size: 11px;
+  text-align: center;
+}
+
+.jump-calendar {
+  position: absolute;
+  width: inherit;
+  left: 0;
+  cursor: pointer;
 }
