@@ -111,7 +111,7 @@ class ClassInfo extends React.Component {
           </div>
         </div>
         {this.syncedBadge()}
-        <div className="collapsible-header">
+        <div className="collapsible-header active">
           <div>
             <span className="">{this.state.dept} {this.state.code} {this.state.component} {this.state.number}</span>
           </div>

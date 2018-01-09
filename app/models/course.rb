@@ -262,7 +262,8 @@ class Course < ApplicationRecord
       final_time = Course::SPECIAL_FINAL_TIMES[:online]
     elsif self.day == 'Su' or self.day == 'Sa'
       final_time = Course::SPECIAL_FINAL_TIMES[:weekend]
-    else
+    end
+    if final_time.nil?
       index_day = Course::FINAL_DAY_ABBREV[self.day.intern]
       final_times = Course::FINAL_TIMES_DICT[index_day.intern]
       if final_times.key? time.intern
@@ -279,8 +280,8 @@ class Course < ApplicationRecord
           puts day
         end
       end
-
     end
+
     final_time
   end
 
