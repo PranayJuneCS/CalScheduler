@@ -180,6 +180,10 @@ class Course < ApplicationRecord
       self.final_event_id = final_exam_event.id
     end
 
+    if byday.nil?
+      byday = 'mo'
+    end
+
     event_1 = cal.create_event do |e|
       e.title = title_string
       e.start_time = start_time
@@ -243,6 +247,9 @@ class Course < ApplicationRecord
   end
 
   def parse_day
+    if self.day == 'TBD'
+      return nil
+    end
     day_arr = self.day.scan(/../).map { |day| day.downcase }
     day_arr.join(',')
   end
