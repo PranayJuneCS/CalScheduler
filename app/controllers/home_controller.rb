@@ -242,7 +242,8 @@ class HomeController < ApplicationController
                          :refresh_token => @current_user.oauth_token
                          )
 
-    course = Course.find_by_ccn(params[:ccn])
+
+    course = @current_user.courses.find_by_ccn(params[:ccn])
 
     event_arr_1 = cal.find_event_by_id(course.event_id_1)
     if event_arr_1.present? and event_arr_1.size == 1
