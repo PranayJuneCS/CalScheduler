@@ -47,7 +47,7 @@ class HomeController < ApplicationController
     if not @current_user.validate_request(params[:token])
       render json: {code: "404", message: "Invalid Request."} and return
     end
-    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2182&subject-area-code=#{params[:dept]}&catalog-number=#{params[:code]}&include-secondary=true&status-code=A")
+    uri = URI.parse("https://apis.berkeley.edu/sis/v1/classes/sections?term-id=2182&subject-area-code=#{params[:dept]}&catalog-number=#{params[:code]}&include-secondary=true")
     req = Net::HTTP::Get.new(uri)
 
     req["Accept"] = 'application/json'
