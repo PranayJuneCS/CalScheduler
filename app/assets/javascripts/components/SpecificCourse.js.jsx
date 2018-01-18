@@ -18,12 +18,6 @@ class SpecificCourse extends React.Component {
 
     };
 
-    this.codesDir = {};
-    var i;
-    for (i = 0; i < this.props.all_codes.length; i++) {
-      this.codesDir[this.props.all_codes[i]] = null;
-    }
-
     this.translateDict = {
       LEC: "Lectures",
       DIS: "Discussions",
@@ -38,9 +32,6 @@ class SpecificCourse extends React.Component {
     this.displayCourses = this.displayCourses.bind(this);
     this.updateCCNs = this.updateCCNs.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
-    this.submitForm = this.submitForm.bind(this);
-    this.switchCourse = this.switchCourse.bind(this);
-    this.clearField = this.clearField.bind(this);
     this.courseCircles = this.courseCircles.bind(this);
     this.filterSwitches = this.filterSwitches.bind(this);
     this.otherDeptCodes = this.otherDeptCodes.bind(this);
@@ -53,10 +44,6 @@ class SpecificCourse extends React.Component {
       gutter: 0
     });
 
-    $('input.autocomplete').autocomplete({
-      data: this.codesDir,
-      limit: 5
-    });
     $('.tooltipped').tooltip({delay: 10});
     $('#filters-modal').modal();
 
@@ -143,15 +130,6 @@ class SpecificCourse extends React.Component {
     this.setState({ checked: checkedState });
   }
 
-  switchCourse(e) {
-    e.preventDefault();
-    var searchVal = $("#search").val().trim().toUpperCase();
-    if (this.props.all_codes.indexOf(searchVal) >= 0) {
-      window.location.pathname = "/course/" + this.props.dept + "/" + searchVal;
-    }
-    return;
-  }
-
   courseCircles(code, i) {
     return (
       <a key={i} href={"/course/" + this.props.dept + "/" + code} id={this.props.short + "-" + code}>
@@ -160,15 +138,6 @@ class SpecificCourse extends React.Component {
         </div>
       </a>
     );
-  }
-
-  submitForm(e) {
-    e.preventDefault();
-    $("#search").blur();
-  }
-
-  clearField() {
-    $('#search').val('');
   }
 
   filterSwitches() {

@@ -28,6 +28,11 @@ class HomeController < ApplicationController
       code = dept[0].codes.where(code: params[:code].upcase)
       if code.any?
         all_codes = dept[0].codes.map { |code_obj| code_obj["code"] }
+        padding = 3
+        all_codes = all_codes.sort { |a,b|
+          a, b = [a,b].map{|s| s.gsub(/\d+/){|m| "0"*(padding - m.size) + m } }
+          a <=> b
+        }
         render component: 'SpecificCourse', props: { dept: params[:dept].upcase,
                                                      code: params[:code].upcase,
                                                      all_codes: all_codes,
@@ -107,6 +112,11 @@ class HomeController < ApplicationController
       render json: {code: "404", message: "Invalid Department."}
     else
       code_arr = department[0].codes.map { |code_obj| code_obj["code"] }
+      padding = 3
+      code_arr = code_arr.sort { |a,b|
+        a, b = [a,b].map{|s| s.gsub(/\d+/){|m| "0"*(padding - m.size) + m } }
+        a <=> b
+      }
       render json: {code: "200", codes: code_arr}
     end
   end
