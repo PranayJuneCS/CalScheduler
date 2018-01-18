@@ -226,12 +226,16 @@ class HomeController < ApplicationController
     if not @current_user.validate_request(params[:token])
       render json: {code: "404", message: "Invalid Request."} and return
     end
-    cal = Google::Calendar.new(:client_id => ENV["google_app_id"],
-                         :client_secret => ENV["google_app_secret"],
-                         :calendar      => @current_user.email,
-                         :redirect_url  => request.url + "auth/google_oauth2/callback",
-                         :refresh_token => @current_user.oauth_token
-                         )
+    begin
+      cal = Google::Calendar.new(:client_id => ENV["google_app_id"],
+                           :client_secret => ENV["google_app_secret"],
+                           :calendar      => @current_user.email,
+                           :redirect_url  => request.url + "auth/google_oauth2/callback",
+                           :refresh_token => @current_user.oauth_token
+                           )
+    rescue Google::HTTPAuthorizationFailed
+      head 401 and return
+    end
 
     unsynced_classes = @current_user.courses.where(synced: false)
     unsynced_classes.each do |course|
@@ -245,13 +249,16 @@ class HomeController < ApplicationController
     if not @current_user.validate_request(params[:token])
       render json: {code: "404", message: "Invalid Request."} and return
     end
-    cal = Google::Calendar.new(:client_id => ENV["google_app_id"],
-                         :client_secret => ENV["google_app_secret"],
-                         :calendar      => @current_user.email,
-                         :redirect_url  => request.url + "auth/google_oauth2/callback",
-                         :refresh_token => @current_user.oauth_token
-                         )
-
+    begin
+      cal = Google::Calendar.new(:client_id => ENV["google_app_id"],
+                           :client_secret => ENV["google_app_secret"],
+                           :calendar      => @current_user.email,
+                           :redirect_url  => request.url + "auth/google_oauth2/callback",
+                           :refresh_token => @current_user.oauth_token
+                           )
+    rescue Google::HTTPAuthorizationFailed
+      head 401 and return
+    end
 
     course = @current_user.courses.find_by_ccn(params[:ccn])
 

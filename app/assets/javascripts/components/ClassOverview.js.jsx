@@ -85,7 +85,11 @@ class ClassOverview extends React.Component {
           this.setState({ syncingClasses: false, courses: data });
         });
       }).fail( (e) => {
-        Materialize.toast('Oh no! An error has occurred (possibly with your connnection!). Please try again.', 2500, '', () => {
+        message = 'Oh no! An error has occurred (possibly with your connnection!). Please try again.'
+        if (e.status == 401) {
+          message = 'Oh no! Your session has expired. Please log out, log in, and try again.'
+        }
+        Materialize.toast(message, 2500, '', () => {
           this.setState({ syncingClasses: false });
         });
       });
